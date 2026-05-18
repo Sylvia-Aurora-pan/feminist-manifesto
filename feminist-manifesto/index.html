@@ -715,9 +715,15 @@ body.hov-link .cur-dot{background:var(--violet);width:8px;height:8px}
   display:flex;flex-direction:column;gap:8px;
 }
 .silence-stage .sheet .lines span{
-  display:block;height:2px;background:var(--line-dark);
+  display:block;height:1.5px;background:var(--line-dark);
   border-radius:1px;
   width:var(--w,100%);
+}
+.silence-stage .sheet .note-text{
+  padding:6px 18px 0;
+  font:400 10px/1.55 var(--serif);
+  color:var(--ink);
+  opacity:.55;
 }
 .silence-stage .sheet .stamp-page{
   position:absolute;bottom:18px;right:20px;
@@ -947,6 +953,109 @@ body.hov-link .cur-dot{background:var(--violet);width:8px;height:8px}
   color:var(--violet);
 }
 </style>
+
+/* =====================================================================
+   MOBILE RESPONSIVE
+   ===================================================================== */
+@media(max-width:860px){
+  .chrome{padding:16px 20px}
+  .wordmark{font-size:9px;letter-spacing:.14em}
+  .wordmark em{display:none}
+  .counter{font-size:9px;gap:10px}
+  .menu-btn{font-size:9px;padding:7px 12px}
+  .toc{padding:80px 24px 60px}
+  .toc-grid{grid-template-columns:1fr;gap:40px}
+  .toc-list a{font-size:18px}
+  .toc-close{top:24px;right:24px}
+  .hero{padding:0 24px}
+  .hero-h{font-size:clamp(42px,11vw,72px);margin-bottom:28px}
+  .hero-sub{font-size:15px}
+  .hero-ghost{font-size:clamp(200px,50vw,400px);right:-8vw;bottom:-6vh}
+  .hero-ticker{height:42px}
+  .hero-ticker .tag{padding:0 14px;font-size:8px;letter-spacing:.2em}
+  .hero-ticker .tag::after{border-width:21px}
+  .ticker-track{font-size:13px;gap:28px;padding-left:24px}
+  .hero-cue{display:none}
+  .foundation{padding:80px 20px 70px}
+  .foundation-eyebrow{font-size:9px;margin-bottom:32px}
+  .foundation-h{font-size:clamp(26px,6vw,40px);margin-bottom:40px}
+  .foundation-grid{grid-template-columns:1fr}
+  .foundation-cell{padding:32px 20px 36px;border-right:none;border-bottom:1px solid var(--line)}
+  .foundation-cell:last-child{border-bottom:none}
+  .foundation-cell .items{font-size:22px}
+  .foundation-cell .gloss{font-size:13px}
+  .foundation-tail{font-size:15px;margin-top:40px}
+  .foundation-tail strong{font-size:22px}
+  .ch-opener{padding:100px 20px 80px;min-height:auto}
+  .ch-opener-inner{grid-template-columns:1fr;gap:32px}
+  .ch-opener-bg{font-size:clamp(180px,40vw,360px);right:-6vw;bottom:-8vh}
+  .ch-spine{border-right:none;border-bottom:1px solid var(--line-strong);padding-bottom:16px;padding-right:0;display:flex;align-items:baseline;gap:14px}
+  .ch-spine .roman{font-size:42px;margin-bottom:0}
+  .ch-opener-body h2{font-size:clamp(30px,7vw,48px)}
+  .ch-opener-body .sub{font-size:15px}
+  .prose{padding:60px 20px 80px}
+  .prose p{font-size:15px;line-height:1.85}
+  .prose .pull{font-size:22px;margin:36px 0 28px;padding-left:18px}
+  .inst-labels{padding:30px 20px 100px}
+  .inst-labels-h{font-size:clamp(22px,5vw,34px)}
+  .inst-labels-sub{font-size:13px;margin-bottom:36px}
+  .labels-stage{height:380px;max-width:100%}
+  .labels-stage .center-you{width:52px;height:52px;font-size:13px}
+  .label-tag{padding:6px 14px;font-size:12px}
+  .labels-counter{font-size:11px;margin-top:24px}
+  .labels-cta{font-size:17px}
+  .inst-voice{padding:60px 20px 100px}
+  .inst-voice-h{font-size:clamp(24px,5vw,36px);margin-bottom:40px}
+  .voice-big-num{font-size:clamp(60px,16vw,100px);margin-bottom:28px}
+  .voice-track-wrap{height:50px}
+  .voice-handle{width:36px;height:36px}
+  .voice-handle.grabbing{width:42px;height:42px}
+  .voice-labels-row{font-size:8px;letter-spacing:.1em}
+  .voice-desc{font-size:13px;margin-top:20px}
+  .inst-silence{padding:60px 20px 100px}
+  .inst-silence-h{font-size:clamp(22px,5vw,34px);margin-bottom:32px}
+  .silence-stage{height:340px}
+  .silence-stage .sheet{width:150px;height:210px}
+  .silence-stage .sheet .lines{padding:14px 14px;gap:5px}
+  .silence-stage .sheet .lines span{height:1.2px}
+  .silence-stage .sheet .note-text{padding:4px 14px 0;font-size:9px;line-height:1.45}
+  .silence-stage .sheet .stamp-page{bottom:10px;right:12px;font-size:7px}
+  .silence-stage .sheet .stamp-private{bottom:10px;left:12px;font-size:7px}
+  .silence-line{font-size:13px;padding:8px 0}
+  .silence-reward{font-size:18px}
+  .attack-strip{height:160px}
+  .inst-feed{padding:60px 20px 80px}
+  .inst-feed-h{font-size:clamp(22px,5vw,34px);margin-bottom:32px}
+  .feed-card{min-width:180px;padding:16px}
+  .feed-card .head{font-size:13px}
+  .inst-capital{padding:80px 20px 90px}
+  .inst-capital-h{font-size:clamp(24px,5vw,36px);margin-bottom:36px}
+  .capital-grid{grid-template-columns:1fr;gap:20px}
+  .capital-cell{padding:28px 24px}
+  .capital-cell .num{font-size:40px}
+  .capital-cell h3{font-size:18px}
+  .capital-cell p{font-size:13px}
+  .inst-spine{padding:80px 20px}
+  .inst-spine .big-q{font-size:clamp(26px,6vw,42px)}
+  .inst-spine .answer{font-size:15px;line-height:1.8}
+  .coda{padding:100px 20px;min-height:auto}
+  .coda h2{font-size:clamp(32px,9vw,56px)}
+  .coda .line{font-size:16px}
+  .coda .sig{font-size:28px}
+}
+@media(max-width:400px){
+  .hero-h{font-size:clamp(34px,12vw,52px)}
+  .silence-stage{height:300px}
+  .silence-stage .sheet{width:130px;height:180px}
+  .silence-stage .sheet .lines{padding:10px 10px;gap:4px}
+  .silence-stage .sheet .note-text{font-size:8px;padding:2px 10px 0}
+  .labels-stage{height:300px}
+}
+@media(hover:none){
+  .menu-btn,.toc-close,.toc-list a,.label-tag,.voice-handle,.sheet,.voice-track{cursor:pointer}
+  .label-tag{-webkit-tap-highlight-color:rgba(155,77,255,.3)}
+  .label-tag:active{background:var(--violet);color:#fff}
+}
 </head>
 <body>
 
@@ -1697,6 +1806,15 @@ body.hov-link .cur-dot{background:var(--violet);width:8px;height:8px}
 
   if (lockedPile) {
     const SHEETS = 7;
+    const notes = [
+      '我不是任何人的附属品。',
+      '我的身体，我的规则。',
+      '说"不"不需要理由。',
+      '我的野心不需要道歉。',
+      '我不是"剩女"，我是自由人。',
+      '我的人生由我定价。',
+      '我即自由。'
+    ];
     const sheets = [];
     for (let i = 0; i < SHEETS; i++) {
       const sheet = document.createElement('div');
@@ -1708,11 +1826,11 @@ body.hov-link .cur-dot{background:var(--violet);width:8px;height:8px}
       sheet.style.zIndex = i + 1;
       sheet.dataset.tx = tx; sheet.dataset.ty = ty; sheet.dataset.rot = rot;
       let lines = '';
-      const lineCount = 12 + Math.floor(Math.random() * 4);
+      const lineCount = 8 + Math.floor(Math.random() * 3);
       for (let j = 0; j < lineCount; j++) {
         lines += `<span style="--w:${60 + Math.random() * 40}%"></span>`;
       }
-      sheet.innerHTML = `<div class="lines">${lines}</div><div class="stamp-page">${String(i + 1).padStart(2, '0')} / 07</div><div class="stamp-private">她的备忘录</div>`;
+      sheet.innerHTML = `<div class="lines">${lines}</div><div class="note-text">${notes[i]}</div><div class="stamp-page">${String(i + 1).padStart(2, '0')} / 07</div><div class="stamp-private">她的备忘录</div>`;
       lockedPile.appendChild(sheet);
       sheets.push(sheet);
     }
