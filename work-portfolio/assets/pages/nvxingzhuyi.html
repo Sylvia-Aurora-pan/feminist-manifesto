@@ -1,0 +1,1964 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>她 — 一份女性主义手稿</title>
+<meta name="description" content="她不是天生的，而是被塑造的。但塑造的反面，是重塑。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,700;1,9..144,900&family=Ma+Shan+Zheng&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg-2:#141414;
+  --bg-3:#1c1c1c;
+  --ink:#0a0a0a;
+  --paper:#fafaf7;
+  --paper-2:#f1ede4;
+  --paper-3:#e8e2d3;
+  --bone:#c9c0a8;
+  --bone-2:#8a8473;
+  --bone-3:#5a5648;
+  --violet:#9b4dff;
+  --violet-2:#7c3aed;
+  --violet-glow:rgba(155,77,255,.35);
+  --rose:#e11d74;
+  --line:rgba(250,250,247,.10);
+  --line-strong:rgba(250,250,247,.22);
+  --line-dark:rgba(10,10,10,.10);
+  --line-dark-strong:rgba(10,10,10,.22);
+  --serif:'Noto Serif SC','Songti SC',serif;
+  --latin:'Fraunces','EB Garamond',Georgia,serif;
+  --brush:'Ma Shan Zheng',serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --t-fast:200ms cubic-bezier(.4,.14,.3,1);
+  --t-mid:480ms cubic-bezier(.18,.62,.18,1);
+  --t-slow:1200ms cubic-bezier(.18,.62,.18,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{
+  background:var(--bg);color:var(--paper);
+  font:400 17px/1.85 var(--serif);
+  font-feature-settings:"palt" 1,"kern" 1;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  cursor:none;
+}
+@media(hover:none){body{cursor:auto}}
+::selection{background:var(--violet);color:#fff}
+
+/* CUSTOM CURSOR */
+.cur-dot,.cur-ring{
+  position:fixed;pointer-events:none;z-index:10000;
+  top:0;left:0;border-radius:50%;
+  mix-blend-mode:difference;
+  will-change:transform;
+}
+.cur-dot{
+  width:6px;height:6px;background:#fff;
+  transform:translate(-50%,-50%);
+  transition:transform 120ms,width 280ms,height 280ms,background 280ms;
+}
+.cur-ring{
+  width:36px;height:36px;
+  border:1px solid #fff;background:transparent;
+  transform:translate(-50%,-50%);
+  transition:transform 380ms cubic-bezier(.2,.8,.2,1),width 280ms,height 280ms,border-color 280ms,background 280ms;
+}
+body.hov-link .cur-ring{
+  width:72px;height:72px;
+  background:rgba(155,77,255,.16);
+  border-color:var(--violet);
+}
+body.hov-link .cur-dot{background:var(--violet);width:8px;height:8px}
+@media(hover:none){.cur-dot,.cur-ring{display:none}}
+
+/* GRAIN TEXTURE */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:9990;
+  opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* PROGRESS THREAD */
+.thread{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:transparent;z-index:60;pointer-events:none;
+}
+.thread::before{
+  content:"";position:absolute;top:0;left:0;height:100%;
+  width:var(--p,0%);
+  background:linear-gradient(90deg,var(--violet),var(--violet-2));
+  box-shadow:0 0 14px var(--violet-glow);
+  transition:width 80ms linear;
+}
+
+/* CHROME */
+.chrome{
+  position:fixed;top:0;left:0;right:0;
+  z-index:50;
+  padding:22px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  pointer-events:none;
+  color:var(--paper);
+  transition:color var(--t-mid);
+}
+.chrome.on-light{color:var(--ink)}
+.chrome>*{pointer-events:auto}
+.wordmark{
+  font:500 11px/1 var(--mono);
+  letter-spacing:.22em;text-transform:uppercase;color:inherit;
+}
+.wordmark em{font-style:italic;font-weight:400;opacity:.55;text-transform:none;font-family:var(--latin);letter-spacing:.04em}
+.counter{
+  font:400 11px/1 var(--mono);
+  letter-spacing:.22em;color:inherit;
+  display:flex;gap:14px;align-items:center;
+  text-transform:uppercase;
+  font-feature-settings:"tnum" 1;
+}
+.counter .ch-now{font-weight:600;color:var(--violet)}
+.counter .ch-of{opacity:.5}
+.menu-btn{
+  background:transparent;
+  border:1px solid currentColor;
+  color:inherit;
+  font:500 11px/1 var(--mono);letter-spacing:.22em;
+  padding:9px 16px;cursor:none;
+  text-transform:uppercase;
+  transition:background var(--t-fast),color var(--t-fast);
+}
+.chrome:not(.on-light) .menu-btn:hover{background:var(--paper);color:var(--ink)}
+.chrome.on-light .menu-btn:hover{background:var(--ink);color:var(--paper)}
+
+/* TOC */
+.toc{
+  position:fixed;inset:0;z-index:80;
+  background:var(--bg);
+  padding:120px 8vw 80px;
+  display:none;overflow-y:auto;
+}
+.toc.open{display:block}
+.toc-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px 80px;
+}
+.toc h2{
+  font:500 12px/1 var(--mono);letter-spacing:.32em;
+  text-transform:uppercase;color:var(--violet);
+  margin:0 0 28px;
+}
+.toc-list{list-style:none}
+.toc-list li{
+  display:flex;gap:18px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid var(--line);
+}
+.toc-list a{
+  color:var(--paper);text-decoration:none;
+  font:500 22px/1.4 var(--serif);
+  flex:1;cursor:none;
+  transition:color var(--t-fast),padding var(--t-fast);
+}
+.toc-list a:hover{color:var(--violet);padding-left:8px}
+.toc-num{
+  font:400 11px/1 var(--mono);
+  letter-spacing:.18em;color:var(--bone-2);
+  min-width:38px;
+}
+.toc-close{
+  position:absolute;top:30px;right:32px;
+  background:none;border:none;cursor:none;
+  font:500 11px/1 var(--mono);letter-spacing:.22em;
+  color:var(--paper);text-transform:uppercase;
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  min-height:100vh;
+  padding:0 max(32px,5vw) 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
+  background:#0a0a0a;
+}
+.hero-canvas{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:.45;
+}
+.hero-canvas canvas{width:100%;height:100%;display:block}
+.hero-ghost{
+  position:absolute;
+  right:-4vw;bottom:-10vh;
+  font:900 clamp(420px,60vw,1000px)/.85 var(--serif);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(250,250,247,.05);
+  letter-spacing:-.06em;
+  z-index:1;pointer-events:none;user-select:none;
+}
+.hero-body{
+  position:relative;z-index:2;
+  max-width:1400px;width:100%;
+  margin:0 auto;
+}
+.hero-h{
+  margin:0 0 56px;
+  font-family:var(--serif);color:var(--paper);
+  font-weight:700;letter-spacing:-.03em;
+  line-height:1.0;
+  font-size:clamp(56px,10.4vw,168px);
+}
+.hero-h .ln{display:block;overflow:hidden}
+.hero-h .ln .inner{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(48%);
+  animation:heroIn 1.4s cubic-bezier(.2,.7,.18,1) forwards;
+  will-change:transform,opacity;
+}
+.hero-h .ln-1 .inner{animation-delay:.2s}
+.hero-h .ln-2 .inner{animation-delay:.55s}
+.hero-h .vm{color:var(--violet)}
+@keyframes heroIn{
+  to{opacity:1;transform:none}
+}
+.hero-sub{
+  font:400 clamp(18px,1.65vw,26px)/1.55 var(--serif);
+  color:var(--bone);max-width:720px;
+  opacity:0;
+  animation:heroIn 1.2s 1.3s forwards;
+  letter-spacing:.01em;
+}
+.hero-sub strong{color:var(--violet);font-weight:500}
+
+/* HERO TICKER */
+.hero-ticker{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:54px;
+  border-top:1px solid var(--violet);
+  background:rgba(10,10,10,.78);
+  overflow:hidden;
+  display:flex;align-items:center;
+  z-index:5;
+}
+.hero-ticker .tag{
+  position:relative;
+  display:flex;align-items:center;gap:10px;
+  padding:0 22px;height:100%;
+  background:var(--violet);color:#fff;
+  font:600 10px/1 var(--mono);
+  letter-spacing:.32em;z-index:2;white-space:nowrap;
+}
+.hero-ticker .tag::after{
+  content:"";
+  position:absolute;left:100%;top:0;
+  width:0;height:0;
+  border:27px solid transparent;
+  border-left-color:var(--violet);
+}
+.hero-ticker .tag .dot{
+  width:7px;height:7px;border-radius:50%;background:#fff;
+  animation:tickerPulse 1.4s ease-in-out infinite;
+}
+@keyframes tickerPulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(.7)}
+}
+.ticker-track{
+  display:flex;gap:46px;
+  white-space:nowrap;
+  padding-left:48px;
+  animation:tickerScroll 42s linear infinite;
+  font:500 15px/1 var(--serif);
+  color:rgba(250,250,247,.82);
+  letter-spacing:.06em;
+}
+.ticker-track .ti-red{color:var(--violet);font-weight:700;font-style:italic;font-family:var(--latin)}
+.ticker-track .ti-sep{color:var(--bone-3);font-family:var(--latin)}
+@keyframes tickerScroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+.hero-cue{
+  position:absolute;
+  right:max(32px,5vw);bottom:82px;
+  z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  font:400 10px/1 var(--mono);
+  letter-spacing:.36em;
+  color:var(--bone-3);
+  text-transform:uppercase;
+  opacity:0;
+  animation:heroIn 1s 1.8s forwards;
+}
+.hero-cue::after{
+  content:"";display:block;width:1px;height:28px;background:var(--bone-3);
+  animation:cueLine 2.2s ease-in-out infinite;
+  transform-origin:top;
+}
+@keyframes cueLine{
+  0%,100%{transform:scaleY(.3);opacity:.4}
+  50%{transform:scaleY(1);opacity:.9}
+}
+@media(max-width:720px){
+  .hero-h{font-size:clamp(44px,13vw,84px);margin-bottom:32px}
+  .hero-sub{font-size:15px;max-width:none}
+  .hero-cue{display:none}
+}
+
+/* FOUNDATION */
+.foundation{
+  background:var(--bg);color:var(--paper);
+  padding:140px 32px 120px;
+  position:relative;overflow:hidden;
+}
+.foundation::before{
+  content:"";position:absolute;
+  left:-10%;top:-20%;width:60%;height:140%;
+  background:radial-gradient(ellipse at center,rgba(155,77,255,.05) 0%,transparent 60%);
+  pointer-events:none;
+}
+.foundation-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.foundation-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.32em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:48px;
+  display:flex;align-items:center;gap:14px;
+}
+.foundation-eyebrow::before{
+  content:"";display:inline-block;width:32px;height:1px;background:var(--violet);
+}
+.foundation-h{
+  font:600 clamp(36px,5.4vw,68px)/1.18 var(--serif);
+  letter-spacing:-.015em;color:var(--paper);
+  margin:0 0 70px;max-width:920px;text-wrap:balance;
+}
+.foundation-h em{
+  font-family:var(--latin);font-style:italic;font-weight:500;
+  color:var(--bone-2);
+}
+.foundation-h .vm{color:var(--violet)}
+.foundation-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  border-top:1px solid var(--violet);
+  border-bottom:1px solid var(--violet);
+  background:rgba(255,255,255,.012);
+}
+.foundation-cell{
+  padding:48px 36px 56px;
+  border-right:1px solid var(--line);
+  position:relative;
+}
+.foundation-cell:last-child{border-right:none}
+.foundation-cell .role{
+  font:500 11px/1 var(--mono);
+  color:var(--violet);letter-spacing:.18em;
+  text-transform:uppercase;margin-bottom:24px;
+}
+.foundation-cell .items{
+  font:600 28px/1.4 var(--serif);
+  color:var(--paper);margin:0 0 20px;
+}
+.foundation-cell .items .pt{display:block}
+.foundation-cell .items .pt+.pt{margin-top:4px}
+.foundation-cell .gloss{
+  font:400 14px/1.75 var(--serif);
+  color:var(--bone);
+}
+.foundation-tail{
+  margin-top:64px;
+  font:400 italic 17px/1.7 var(--latin);
+  color:var(--bone);max-width:680px;
+}
+.foundation-tail strong{
+  display:block;margin-top:18px;
+  font:600 30px/1.3 var(--serif);
+  color:var(--paper);font-style:normal;letter-spacing:-.01em;
+}
+.foundation-tail strong .vm{color:var(--violet)}
+
+/* CHAPTER OPENER */
+.ch-opener{
+  background:var(--bg);color:var(--paper);
+  min-height:100vh;
+  padding:160px 32px 100px;
+  position:relative;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.ch-opener::before{
+  content:"";position:absolute;
+  left:-5%;top:-10%;width:55%;height:120%;
+  background:radial-gradient(ellipse at center,rgba(155,77,255,.06) 0%,transparent 60%);
+  pointer-events:none;z-index:1;
+}
+.ch-opener-bg{
+  position:absolute;
+  font:900 clamp(420px,48vw,780px)/.85 var(--latin);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(250,250,247,.04);
+  letter-spacing:-.04em;
+  right:-2vw;bottom:-15vh;
+  z-index:1;pointer-events:none;user-select:none;
+}
+.ch-opener-inner{
+  max-width:1300px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:140px 1fr;gap:80px;
+  position:relative;z-index:2;
+}
+.ch-spine{
+  border-right:1px solid var(--line-strong);
+  padding-right:24px;
+  font:400 11px/1.4 var(--mono);
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--bone-2);
+}
+.ch-spine .roman{
+  display:block;
+  font:300 88px/1 var(--latin);
+  color:var(--paper);
+  margin-bottom:24px;letter-spacing:0;
+  font-feature-settings:"lnum" 1;
+}
+.ch-spine .of{color:var(--bone-3);display:block;margin-top:14px}
+.ch-opener-body{padding-left:0}
+.ch-opener-body .kicker{
+  font:400 italic 16px/1.5 var(--latin);
+  color:var(--violet);letter-spacing:.02em;
+  margin:0 0 32px;
+  display:flex;align-items:center;gap:14px;
+}
+.ch-opener-body .kicker::before{
+  content:"";display:inline-block;width:28px;height:1px;background:var(--violet);
+}
+.ch-opener-body h2{
+  font:700 clamp(42px,5.6vw,80px)/1.08 var(--serif);
+  letter-spacing:-.02em;margin:0 0 32px;text-wrap:balance;
+}
+.ch-opener-body h2 .vm{color:var(--violet)}
+.ch-opener-body .sub{
+  font:400 18px/1.8 var(--serif);
+  color:var(--bone);max-width:620px;
+}
+@media(max-width:860px){
+  .ch-opener-inner{grid-template-columns:1fr;gap:40px}
+  .ch-spine{border-right:none;border-bottom:1px solid var(--line-strong);padding-bottom:20px;padding-right:0;display:flex;align-items:baseline;gap:18px}
+  .ch-spine .roman{font-size:56px;margin-bottom:0}
+}
+
+/* PROSE SECTION */
+.prose{
+  background:var(--bg);color:var(--paper);
+  padding:100px 32px 120px;
+}
+.prose-inner{
+  max-width:720px;margin:0 auto;
+}
+.prose p{
+  font:400 17px/2 var(--serif);
+  color:var(--bone);
+  margin:0 0 28px;
+}
+.prose p strong{color:var(--paper);font-weight:600}
+.prose p em{color:var(--violet);font-style:normal}
+.prose .pull{
+  font:600 28px/1.45 var(--serif);
+  color:var(--paper);
+  margin:56px 0 40px;
+  padding-left:24px;
+  border-left:2px solid var(--violet);
+}
+.prose .pull .vm{color:var(--violet)}
+
+/* INSTALLATION — LABELS (floating tags to catch) */
+.inst-labels{
+  background:var(--bg);
+  padding:40px 32px 160px;
+  position:relative;
+  overflow:hidden;
+}
+.inst-labels::before{
+  content:"";position:absolute;
+  left:-5%;top:-10%;width:55%;height:120%;
+  background:radial-gradient(ellipse at center,rgba(155,77,255,.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+.inst-labels-inner{
+  max-width:960px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.inst-labels-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.28em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:20px;
+}
+.inst-labels-h{
+  font:600 clamp(28px,3.8vw,48px)/1.22 var(--serif);
+  margin-bottom:16px;text-wrap:balance;
+}
+.inst-labels-sub{
+  font:400 15px/1.7 var(--serif);
+  color:var(--bone);margin-bottom:60px;
+}
+.labels-stage{
+  position:relative;
+  width:100%;max-width:700px;
+  height:500px;
+  margin:0 auto;
+  border-radius:50%;
+}
+.labels-stage .center-you{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:72px;height:72px;
+  border-radius:50%;
+  border:1px solid var(--violet);
+  display:flex;align-items:center;justify-content:center;
+  font:700 16px/1 var(--serif);
+  color:var(--violet);
+  z-index:10;
+  background:var(--bg);
+  pointer-events:none;
+}
+.label-tag{
+  position:absolute;
+  font:400 clamp(13px,1.4vw,16px)/1 var(--serif);
+  color:var(--paper);
+  background:var(--bg-2);
+  border:1px solid var(--line-strong);
+  padding:8px 18px;
+  border-radius:20px;
+  cursor:none;
+  transition:all var(--t-fast);
+  white-space:nowrap;
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.6);
+}
+.label-tag.go{
+  animation:labelOrbit 18s linear infinite;
+  animation-delay:var(--delay);
+  opacity:1;
+}
+.label-tag.caught{
+  animation:none;
+  opacity:.3;
+  background:var(--violet);
+  border-color:var(--violet);
+  color:#fff;
+  pointer-events:none;
+}
+@keyframes labelOrbit{
+  0%{transform:translate(-50%,-50%) translate(var(--x0),var(--y0)) rotate(var(--r0)) scale(.8)}
+  33%{transform:translate(-50%,-50%) translate(var(--x1),var(--y1)) rotate(var(--r1)) scale(1)}
+  66%{transform:translate(-50%,-50%) translate(var(--x2),var(--y2)) rotate(var(--r2)) scale(1)}
+  100%{transform:translate(-50%,-50%) translate(var(--x0),var(--y0)) rotate(var(--r0)) scale(.8)}
+}
+.labels-counter{
+  text-align:center;margin-top:40px;
+  font:400 13px/1 var(--mono);
+  letter-spacing:.22em;
+  color:var(--bone-2);
+  text-transform:uppercase;
+}
+.labels-counter .num{color:var(--violet);font-weight:700;font-size:18px}
+.labels-counter.full .num{color:#fff}
+.labels-cta{
+  text-align:center;margin-top:20px;
+  opacity:0;transform:translateY(12px);
+  transition:all var(--t-mid);
+  font:600 20px/1.5 var(--serif);
+  color:var(--violet);
+}
+.labels-cta.show{opacity:1;transform:none}
+
+/* INSTALLATION — VOICE SLIDER */
+.inst-voice{
+  background:var(--bg);
+  padding:100px 32px 140px;
+  position:relative;
+}
+.inst-voice-inner{
+  max-width:780px;margin:0 auto;
+}
+.inst-voice-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.28em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:36px;
+}
+.inst-voice-h{
+  font:600 clamp(32px,4.2vw,54px)/1.18 var(--serif);
+  margin-bottom:60px;text-wrap:balance;
+}
+.voice-big-num{
+  font:900 clamp(80px,12vw,160px)/1 var(--latin);
+  text-align:center;
+  margin-bottom:40px;
+  color:var(--paper);
+  font-feature-settings:"tnum" 1;
+  transition:color var(--t-mid);
+}
+.voice-big-num.heated{color:var(--violet)}
+.voice-track-wrap{
+  position:relative;
+  height:60px;
+  display:flex;align-items:center;
+  margin-bottom:20px;
+}
+.voice-track{
+  position:relative;width:100%;height:4px;
+  background:var(--bg-3);border-radius:2px;
+}
+.voice-track-fill{
+  position:absolute;top:0;left:0;height:100%;
+  width:calc(var(--v,50) * 1%);
+  background:linear-gradient(90deg,var(--violet-2),var(--violet));
+  border-radius:2px;
+  transition:width 60ms;
+}
+.voice-handle{
+  position:absolute;
+  top:50%;
+  left:calc(var(--v,50) * 1%);
+  transform:translate(-50%,-50%);
+  width:28px;height:28px;
+  background:var(--paper);
+  border-radius:50%;
+  cursor:none;
+  box-shadow:0 0 20px var(--violet-glow);
+  transition:left 60ms,background var(--t-fast);
+  z-index:5;
+}
+.voice-handle.grabbing{background:var(--violet);width:34px;height:34px}
+.voice-ticks{
+  position:relative;height:20px;margin-bottom:16px;
+}
+.voice-tick{
+  position:absolute;top:0;
+  width:1px;height:8px;background:var(--bone-3);
+}
+.voice-tick.major{height:16px;background:var(--bone-2)}
+.voice-labels-row{
+  display:flex;justify-content:space-between;
+  font:400 10px/1 var(--mono);
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bone-3);
+}
+.voice-desc{
+  text-align:center;margin-top:30px;
+  font:400 14px/1.7 var(--serif);
+  color:var(--bone);
+  transition:color var(--t-mid);
+}
+
+/* INSTALLATION — BREAKING SILENCE (locked pile) */
+.inst-silence{
+  background:var(--bg);
+  padding:100px 32px 160px;
+  position:relative;
+  overflow:hidden;
+}
+.inst-silence::before{
+  content:"";position:absolute;
+  right:-10%;top:-10%;width:50%;height:120%;
+  background:radial-gradient(ellipse at center,rgba(155,77,255,.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+.inst-silence-inner{
+  max-width:820px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.inst-silence-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.28em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:20px;
+}
+.inst-silence-h{
+  font:600 clamp(28px,3.8vw,48px)/1.22 var(--serif);
+  margin-bottom:50px;text-wrap:balance;
+}
+.silence-stage{
+  position:relative;
+  width:100%;height:420px;
+  margin:0 auto 40px;
+}
+.silence-stage .sheet{
+  position:absolute;left:50%;top:50%;
+  width:200px;height:270px;
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+  cursor:none;
+  transition:box-shadow var(--t-fast);
+  user-select:none;
+}
+.silence-stage .sheet.is-top{
+  z-index:100 !important;
+  box-shadow:0 14px 60px rgba(155,77,255,.25);
+}
+.silence-stage .sheet.dragging{
+  box-shadow:0 20px 80px rgba(155,77,255,.4);
+  transition:none;
+}
+.silence-stage .sheet.flying{
+  transition:transform .7s cubic-bezier(.4,0,1,1),opacity .7s;
+  pointer-events:none;
+}
+.silence-stage .sheet .lines{
+  padding:24px 20px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.silence-stage .sheet .lines span{
+  display:block;height:1.5px;background:var(--line-dark);
+  border-radius:1px;
+  width:var(--w,100%);
+}
+.silence-stage .sheet .note-text{
+  padding:6px 18px 0;
+  font:400 10px/1.55 var(--serif);
+  color:var(--ink);
+  opacity:.55;
+}
+.silence-stage .sheet .stamp-page{
+  position:absolute;bottom:18px;right:20px;
+  font:500 10px/1 var(--mono);
+  letter-spacing:.14em;color:var(--bone-2);
+}
+.silence-stage .sheet .stamp-private{
+  position:absolute;bottom:18px;left:20px;
+  font:400 9px/1 var(--mono);
+  color:var(--violet);letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.silence-counter{
+  text-align:center;
+  font:400 13px/1 var(--mono);
+  letter-spacing:.22em;
+  color:var(--bone-2);
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.silence-counter span{color:var(--violet);font-weight:700;font-size:18px}
+.silence-released{
+  max-width:520px;margin:0 auto;
+}
+.silence-line{
+  font:400 15px/1.8 var(--serif);
+  color:var(--bone);
+  padding:10px 0;
+  border-bottom:1px solid var(--line);
+  opacity:0;transform:translateX(-12px);
+  transition:all var(--t-mid);
+}
+.silence-line.in{opacity:1;transform:none}
+.silence-line.idle{opacity:.25}
+.silence-line .vm{color:var(--violet);font-weight:600}
+.silence-reward{
+  text-align:center;margin-top:32px;
+  opacity:0;transform:translateY(12px);
+  transition:all var(--t-mid);
+  font:600 22px/1.5 var(--serif);
+  color:var(--violet);
+}
+.silence-reward.show{opacity:1;transform:none}
+
+/* ATTACK STRIP */
+.attack-strip{
+  position:relative;
+  height:260px;
+  background:var(--bg);
+  overflow:hidden;
+  display:flex;align-items:flex-end;
+  gap:2px;
+}
+.attack-strip .bar{
+  flex:1;
+  background:var(--violet);
+  opacity:0;
+  transform:scaleY(0);
+  transform-origin:bottom;
+  animation:barRise .6s cubic-bezier(.2,.8,.2,1) forwards;
+  border-radius:1px 1px 0 0;
+}
+@keyframes barRise{
+  to{opacity:.7;transform:scaleY(1)}
+}
+
+/* PHONE FEED */
+.inst-feed{
+  background:var(--bg);
+  padding:100px 32px 120px;
+  position:relative;
+  overflow:hidden;
+}
+.inst-feed-inner{
+  max-width:900px;margin:0 auto;
+}
+.inst-feed-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.28em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:36px;
+}
+.inst-feed-h{
+  font:600 clamp(28px,4vw,48px)/1.22 var(--serif);
+  margin-bottom:50px;text-wrap:balance;
+}
+.feed-track-wrap{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--bg-2);
+  padding:16px 0;
+}
+.feed-track{
+  display:flex;gap:20px;
+  padding:0 20px;
+  animation:feedScroll 60s linear infinite;
+}
+.feed-card{
+  min-width:240px;
+  background:var(--bg-3);
+  border-radius:10px;
+  padding:20px;
+  flex-shrink:0;
+}
+.feed-card .meta{font:400 10px/1 var(--mono);color:var(--bone-2);margin-bottom:12px;letter-spacing:.1em}
+.feed-card .meta .vm{color:var(--violet);font-weight:500}
+.feed-card .head{font:500 15px/1.45 var(--serif);color:var(--paper);margin-bottom:14px}
+.feed-card .stats{font:400 10px/1 var(--mono);color:var(--bone-3);letter-spacing:.08em}
+@keyframes feedScroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* CAPITAL CELLS */
+.inst-capital{
+  background:var(--paper);
+  color:var(--ink);
+  padding:120px 32px 140px;
+  position:relative;
+}
+.inst-capital-inner{
+  max-width:1000px;margin:0 auto;
+}
+.inst-capital-eyebrow{
+  font:500 11px/1 var(--mono);letter-spacing:.28em;
+  text-transform:uppercase;color:var(--violet);
+  margin-bottom:36px;
+}
+.inst-capital-h{
+  font:600 clamp(32px,4.2vw,54px)/1.18 var(--serif);
+  color:var(--ink);margin-bottom:60px;text-wrap:balance;
+}
+.capital-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:32px;
+}
+.capital-cell{
+  background:var(--bg);
+  color:var(--paper);
+  padding:40px 36px;
+  border-radius:8px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .6s cubic-bezier(.2,.8,.2,1);
+}
+.capital-cell.in{opacity:1;transform:none}
+.capital-cell .num{
+  font:300 56px/1 var(--latin);
+  color:var(--violet);
+  margin-bottom:16px;
+}
+.capital-cell h3{
+  font:600 22px/1.4 var(--serif);
+  margin-bottom:12px;
+}
+.capital-cell p{
+  font:400 14px/1.7 var(--serif);
+  color:var(--bone);
+}
+
+/* INSTALLATION — SPINE (light section) */
+.inst-spine{
+  background:var(--paper);
+  color:var(--ink);
+  padding:120px 32px;
+  position:relative;
+}
+.inst-spine-inner{
+  max-width:780px;margin:0 auto;
+  text-align:center;
+}
+.inst-spine .big-q{
+  font:700 clamp(36px,5vw,64px)/1.2 var(--serif);
+  color:var(--ink);margin-bottom:40px;
+}
+.inst-spine .big-q .vm{color:var(--violet)}
+.inst-spine .answer{
+  font:400 17px/2 var(--serif);
+  color:var(--bone-2);
+  max-width:560px;margin:0 auto;
+}
+
+/* REVEAL / STAGGER / IMPACT */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.stagger.in>*:nth-child(1){transition-delay:.05s;opacity:1;transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.12s;opacity:1;transform:none}
+.stagger.in>*:nth-child(3){transition-delay:.19s;opacity:1;transform:none}
+.stagger.in>*:nth-child(4){transition-delay:.26s;opacity:1;transform:none}
+.stagger.in>*:nth-child(5){transition-delay:.33s;opacity:1;transform:none}
+.stagger.in>*:nth-child(6){transition-delay:.40s;opacity:1;transform:none}
+.impact{opacity:0;transform:scale(.94);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.impact.in{opacity:1;transform:none}
+
+/* CODA */
+.coda{
+  background:var(--bg);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 32px;
+  position:relative;
+  overflow:hidden;
+}
+.coda::before{
+  content:"";position:absolute;
+  left:-10%;bottom:-10%;width:60%;height:60%;
+  background:radial-gradient(ellipse at center,rgba(155,77,255,.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.coda-inner{
+  text-align:center;position:relative;z-index:1;
+}
+.coda h2{
+  font:700 clamp(40px,7vw,90px)/1.1 var(--serif);
+  margin-bottom:32px;
+}
+.coda h2 .vm{color:var(--violet)}
+.coda .line{
+  font:400 18px/1.8 var(--serif);
+  color:var(--bone);margin-bottom:12px;
+}
+.coda .line strong{color:var(--paper);font-weight:600}
+.coda .sig{
+  margin-top:40px;
+  font:400 36px/1 var(--brush);
+  color:var(--violet);
+}
+
+/* =====================================================================
+   GLOBAL SAFETY — 防止横向溢出
+   ===================================================================== */
+img, video, canvas, svg, iframe{max-width:100%;height:auto}
+pre, code{overflow-wrap:break-word;white-space:pre-wrap}
+
+/* =====================================================================
+   TABLET — 640–1024px: 中间断点，部分保持两列
+   ===================================================================== */
+@media(min-width:641px) and (max-width:1024px){
+  body{cursor:auto}
+  .cur-dot,.cur-ring{display:none!important}
+  .chrome{padding:18px 28px}
+  .toc-grid{grid-template-columns:1fr 1fr;gap:40px 50px}
+  .foundation-grid{grid-template-columns:1fr 1fr}
+  .foundation-cell:last-child{grid-column:1/-1;border-right:none}
+  .capital-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .ch-opener-inner{grid-template-columns:100px 1fr;gap:48px}
+  .ch-spine .roman{font-size:62px}
+  .labels-stage{height:440px}
+  .silence-stage{height:380px}
+}
+
+/* =====================================================================
+   MOBILE RESPONSIVE — ≤860px 逐渐收缩至单列
+   ===================================================================== */
+@media(max-width:860px){
+  body{cursor:auto}
+  .cur-dot,.cur-ring{display:none!important}
+  .chrome{padding:16px 20px}
+  .wordmark{font-size:9px;letter-spacing:.14em}
+  .wordmark em{display:none}
+  .counter{font-size:9px;gap:10px}
+  .menu-btn{font-size:9px;padding:7px 12px}
+  .toc{padding:80px 24px 60px}
+  .toc-grid{grid-template-columns:1fr;gap:40px}
+  .toc-list a{font-size:18px}
+  .toc-close{top:24px;right:24px}
+  .hero{padding:0 24px}
+  .hero-h{font-size:clamp(42px,11vw,72px);margin-bottom:28px}
+  .hero-sub{font-size:15px}
+  .hero-ghost{font-size:clamp(200px,50vw,400px);right:-8vw;bottom:-6vh}
+  .hero-ticker{height:42px}
+  .hero-ticker .tag{padding:0 14px;font-size:8px;letter-spacing:.2em}
+  .hero-ticker .tag::after{border-width:21px}
+  .ticker-track{font-size:13px;gap:28px;padding-left:24px}
+  .hero-cue{display:none}
+  .foundation{padding:80px 20px 70px}
+  .foundation-eyebrow{font-size:9px;margin-bottom:32px}
+  .foundation-h{font-size:clamp(26px,6vw,40px);margin-bottom:40px}
+  .foundation-grid{grid-template-columns:1fr}
+  .foundation-cell{padding:32px 20px 36px;border-right:none;border-bottom:1px solid var(--line)}
+  .foundation-cell:last-child{border-bottom:none}
+  .foundation-cell .items{font-size:22px}
+  .foundation-cell .gloss{font-size:13px}
+  .foundation-tail{font-size:15px;margin-top:40px}
+  .foundation-tail strong{font-size:22px}
+  .ch-opener{padding:100px 20px 80px;min-height:auto}
+  .ch-opener-inner{grid-template-columns:1fr;gap:32px}
+  .ch-opener-bg{font-size:clamp(180px,40vw,360px);right:-6vw;bottom:-8vh}
+  .ch-spine{border-right:none;border-bottom:1px solid var(--line-strong);padding-bottom:16px;padding-right:0;display:flex;align-items:baseline;gap:14px}
+  .ch-spine .roman{font-size:42px;margin-bottom:0}
+  .ch-opener-body h2{font-size:clamp(30px,7vw,48px)}
+  .ch-opener-body .sub{font-size:15px}
+  .prose{padding:60px 20px 80px}
+  .prose p{font-size:15px;line-height:1.85}
+  .prose .pull{font-size:22px;margin:36px 0 28px;padding-left:18px}
+  .inst-labels{padding:30px 20px 100px}
+  .inst-labels-h{font-size:clamp(22px,5vw,34px)}
+  .inst-labels-sub{font-size:13px;margin-bottom:36px}
+  .labels-stage{height:380px;max-width:100%}
+  .labels-stage .center-you{width:52px;height:52px;font-size:13px}
+  .label-tag{padding:6px 14px;font-size:12px}
+  .labels-counter{font-size:11px;margin-top:24px}
+  .labels-cta{font-size:17px}
+  .inst-voice{padding:60px 20px 100px}
+  .inst-voice-h{font-size:clamp(24px,5vw,36px);margin-bottom:40px}
+  .voice-big-num{font-size:clamp(60px,16vw,100px);margin-bottom:28px}
+  .voice-track-wrap{height:50px}
+  .voice-handle{width:36px;height:36px}
+  .voice-handle.grabbing{width:42px;height:42px}
+  .voice-labels-row{font-size:8px;letter-spacing:.1em}
+  .voice-desc{font-size:13px;margin-top:20px}
+  .inst-silence{padding:60px 20px 100px}
+  .inst-silence-h{font-size:clamp(22px,5vw,34px);margin-bottom:32px}
+  .silence-stage{height:340px}
+  .silence-stage .sheet{width:150px;height:210px}
+  .silence-stage .sheet .lines{padding:14px 14px;gap:5px}
+  .silence-stage .sheet .lines span{height:1.2px}
+  .silence-stage .sheet .note-text{padding:4px 14px 0;font-size:9px;line-height:1.45}
+  .silence-stage .sheet .stamp-page{bottom:10px;right:12px;font-size:7px}
+  .silence-stage .sheet .stamp-private{bottom:10px;left:12px;font-size:7px}
+  .silence-line{font-size:13px;padding:8px 0}
+  .silence-reward{font-size:18px}
+  .attack-strip{height:160px}
+  .inst-feed{padding:60px 20px 80px}
+  .inst-feed-h{font-size:clamp(22px,5vw,34px);margin-bottom:32px}
+  .feed-card{min-width:180px;padding:16px}
+  .feed-card .head{font-size:13px}
+  .inst-capital{padding:80px 20px 90px}
+  .inst-capital-h{font-size:clamp(24px,5vw,36px);margin-bottom:36px}
+  .capital-grid{grid-template-columns:1fr;gap:20px}
+  .capital-cell{padding:28px 24px}
+  .capital-cell .num{font-size:40px}
+  .capital-cell h3{font-size:18px}
+  .capital-cell p{font-size:13px}
+  .inst-spine{padding:80px 20px}
+  .inst-spine .big-q{font-size:clamp(26px,6vw,42px)}
+  .inst-spine .answer{font-size:15px;line-height:1.8}
+  .coda{padding:100px 20px;min-height:auto}
+  .coda h2{font-size:clamp(32px,9vw,56px)}
+  .coda .line{font-size:16px}
+  .coda .sig{font-size:28px}
+}
+@media(max-width:400px){
+  .hero-h{font-size:clamp(34px,12vw,52px)}
+  .silence-stage{height:300px}
+  .silence-stage .sheet{width:130px;height:180px}
+  .silence-stage .sheet .lines{padding:10px 10px;gap:4px}
+  .silence-stage .sheet .note-text{font-size:8px;padding:2px 10px 0}
+  .labels-stage{height:300px}
+}
+@media(hover:none){
+  .menu-btn,.toc-close,.toc-list a,.label-tag,.voice-handle,.sheet,.voice-track{cursor:pointer}
+  .label-tag{-webkit-tap-highlight-color:rgba(155,77,255,.3)}
+  .label-tag:active{background:var(--violet);color:#fff}
+}
+</style>
+</head>
+<body>
+
+<div class="thread" id="thread"></div>
+<div class="grain"></div>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<header class="chrome" id="chrome">
+  <div class="wordmark">她 · 女性主义 / <em>a feminist manifesto</em></div>
+  <div class="counter">
+    <span class="ch-now" id="chNow">— · 序</span>
+    <span class="ch-of">/ vi</span>
+    <button class="menu-btn" id="menuBtn">索引 ↗</button>
+  </div>
+</header>
+
+<nav class="toc" id="toc" aria-hidden="true">
+  <button class="toc-close" id="tocClose">关闭 ✕</button>
+  <div class="toc-grid">
+    <div>
+      <h2>章节 · CHAPTERS</h2>
+      <ul class="toc-list">
+        <li><span class="toc-num">00</span><a href="#prologue">序 — 她</a></li>
+        <li><span class="toc-num">I</span><a href="#ch1">被定义的身体</a></li>
+        <li><span class="toc-num">II</span><a href="#ch2">沉默的代价</a></li>
+        <li><span class="toc-num">III</span><a href="#ch3">被定价的人生</a></li>
+        <li><span class="toc-num">IV</span><a href="#ch4">话语权与杠杆</a></li>
+        <li><span class="toc-num">V</span><a href="#ch5">AI 时代的性别</a></li>
+        <li><span class="toc-num">VI</span><a href="#ch6">姐妹之链</a></li>
+        <li><span class="toc-num">∞</span><a href="#coda">尾声 — 重塑</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>主 线 · THE THREAD</h2>
+      <p style="font:400 17px/1.85 var(--serif);color:rgba(250,250,247,.78);margin:0">
+        她不是天生的，而是被塑造的——<br><br>
+        前半本讲<em>解构</em>：身体被定义 → 声音被消音 → 人生被定价。<br><br>
+        后半本讲<em>重塑</em>：抢夺话语权 → 建立姐妹链 → AI 时代的性别代差。<br><br>
+        最后回到——<strong style="color:var(--violet)">自由。</strong>
+      </p>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="prologue">
+  <div class="hero-canvas"><canvas id="heroParticles"></canvas></div>
+  <div class="hero-ghost" aria-hidden="true">她</div>
+  <div class="hero-body">
+    <h1 class="hero-h">
+      <span class="ln ln-1"><span class="inner">她不是</span></span>
+      <span class="ln ln-2"><span class="inner"><span class="vm">天生的</span>。</span></span>
+    </h1>
+    <p class="hero-sub">
+      一个人不是生来就是女人——<br>
+      <strong>而是被塑造成女人的。</strong>
+    </p>
+  </div>
+  <div class="hero-cue">scroll</div>
+  <div class="hero-ticker">
+    <div class="tag"><span class="dot"></span>BEING DEFINED · 被定义</div>
+    <div class="ticker-track">
+      <span>好嫁风</span><span class="ti-sep">/</span><span>白瘦幼</span><span class="ti-sep">/</span><span class="ti-red">贤妻良母</span><span class="ti-sep">/</span><span>剩女</span><span class="ti-sep">/</span><span>女汉子</span><span class="ti-sep">/</span><span class="ti-red">情绪化</span><span class="ti-sep">/</span><span>花瓶</span><span class="ti-sep">/</span><span>大龄</span><span class="ti-sep">/</span><span class="ti-red">应该</span><span class="ti-sep">/</span><span>不够好</span><span class="ti-sep">/</span><span>太强势</span><span class="ti-sep">/</span><span class="ti-red">玻璃天花板</span><span class="ti-sep">/</span><span>月经羞耻</span><span class="ti-sep">/</span><span>身材焦虑</span><span class="ti-sep">/</span><span class="ti-red">母职惩罚</span><span class="ti-sep">/</span><span>性骚扰</span><span class="ti-sep">/</span>
+      <span>好嫁风</span><span class="ti-sep">/</span><span>白瘦幼</span><span class="ti-sep">/</span><span class="ti-red">贤妻良母</span><span class="ti-sep">/</span><span>剩女</span><span class="ti-sep">/</span><span>女汉子</span><span class="ti-sep">/</span><span class="ti-red">情绪化</span><span class="ti-sep">/</span><span>花瓶</span><span class="ti-sep">/</span><span>大龄</span><span class="ti-sep">/</span><span class="ti-red">应该</span><span class="ti-sep">/</span><span>不够好</span><span class="ti-sep">/</span><span>太强势</span><span class="ti-sep">/</span><span class="ti-red">玻璃天花板</span><span class="ti-sep">/</span><span>月经羞耻</span><span class="ti-sep">/</span><span>身材焦虑</span><span class="ti-sep">/</span><span class="ti-red">母职惩罚</span><span class="ti-sep">/</span><span>性骚扰</span><span class="ti-sep">/</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDATION -->
+<section class="foundation reveal">
+  <div class="foundation-inner">
+    <p class="foundation-eyebrow">理 解 结 构 · the foundation</p>
+    <h2 class="foundation-h">
+      一个人的处境，<br>
+      是<em>被结构塑造</em>出来的——<br>
+      <span class="vm">入口，是身体。</span>
+    </h2>
+    <div class="foundation-grid">
+      <div class="foundation-cell">
+        <div class="role">地基 · foundation</div>
+        <div class="items">
+          <span class="pt">灵魂</span>
+          <span class="pt">身体</span>
+          <span class="pt">话语权</span>
+          <span class="pt">经济独立</span>
+        </div>
+        <div class="gloss">从最底层开始重建——一个女性的系统，必须从内到外生长。</div>
+      </div>
+      <div class="foundation-cell">
+        <div class="role">结构 · structure</div>
+        <div class="items">
+          <span class="pt">父权制</span>
+          <span class="pt">资本异化</span>
+          <span class="pt">话语垄断</span>
+          <span class="pt">审美规训</span>
+        </div>
+        <div class="gloss">结构不是个人的错，但解构需要每个人的力量。先认清它。</div>
+      </div>
+      <div class="foundation-cell">
+        <div class="role">武器 · weapons</div>
+        <div class="items">
+          <span class="pt">觉知</span>
+          <span class="pt">金钱</span>
+          <span class="pt">姐妹情谊</span>
+          <span class="pt">话语杠杆</span>
+        </div>
+        <div class="gloss">觉知是第一武器，金钱是第二武器，姐妹们是永远的援军。</div>
+      </div>
+    </div>
+    <div class="foundation-tail">
+      The personal is political.
+      <strong>个体的即政治的 —— <span class="vm">你的困境有名字。</span></strong>
+    </div>
+  </div>
+</section>
+
+<!-- CH1: 被定义的身体 -->
+<section class="ch-opener" id="ch1">
+  <div class="ch-opener-bg" aria-hidden="true">I</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">I</span>
+      被定义的身体
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">the defined body</p>
+      <h2>你的身体——<br><span class="vm">是谁的战场？</span></h2>
+      <p class="sub">从出生的那一刻起，一个女性的身体就不再属于她自己。它属于家庭的期待、社会的凝视、资本的货架、算法的推荐流。夺回身体，是第一步。</p>
+    </div>
+  </div>
+</section>
+
+<section class="prose reveal">
+  <div class="prose-inner">
+    <p>西蒙娜·德·波伏娃在 1949 年写下：<strong>"一个人不是生来就是女人，而是变成女人的。"</strong>七十多年过去了，这句话依然锋利——只是"变成女人"的机制，从教堂、厨房和产房，<em>升级成了算法、消费主义和社交网络</em>。</p>
+    <p>一个女孩从出生起就在接收信号：粉色是她的颜色，娃娃是她的玩具，<strong>温柔是她的美德</strong>。到了青春期，身体开始被凝视——太胖、太瘦、太高、太矮。每一个形容词都是一道刀痕，在她的自我认知上刻下"不够好"。</p>
+    <div class="pull">"你的身体不是你的问题——<br><span class="vm">凝视才是。</span>"</div>
+    <p>约翰·伯格在《观看之道》中说：<strong>男性观察女性，女性则注意自己被观察。</strong>这不仅决定了男女之间的关系，也决定了女性与自己的关系。女性把自己变成一个<em>被观看的对象</em>——即所谓的"自我客体化"。</p>
+    <p>研究表明，女性在镜子前检查自己的频率是男性的三倍。这不是天性，<strong>这是内化的凝视</strong>。你把别人的眼光变成了自己的牢笼，然后在牢笼里努力减肥、化妆、穿搭——以为那是自由。</p>
+    <p>夺回身体的第一步很简单，也很危险：<em>不再把自己当作一个被观看的物品。</em>你的身体是你的领土，不是别人的殖民地。</p>
+  </div>
+</section>
+
+<!-- CH2: 沉默的代价 -->
+<section class="ch-opener" id="ch2">
+  <div class="ch-opener-bg" aria-hidden="true">II</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">II</span>
+      沉默的代价
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">the cost of silence</p>
+      <h2>被消音的——<br><span class="vm">不只是声音。</span></h2>
+      <p class="sub">女性被教导"不要大声说话"。会议室里，她的话被打断；社交媒体上，她的观点被辱骂；历史书里，她的名字被擦去。沉默是一种暴力。</p>
+    </div>
+  </div>
+</section>
+
+<section class="prose reveal">
+  <div class="prose-inner">
+    <p>语言学研究发现，在混合性别的对话中，<strong>男性打断女性的频率是女性打断男性的三倍</strong>。更微妙的是，当女性在会议上发言时，她的观点常常被忽略——然后一个男性同事说了同样的话，所有人点头。</p>
+    <p>这就是<em>"他重复她"</em>现象。这在学术界、政界、商业界每天都在发生。你的声音被淹没，然后别人用同样的声音获得掌声。</p>
+    <div class="pull">"当你说'我觉得'——<br>你已经<span class="vm">让步了。</span>"</div>
+    <p>罗宾·拉科夫在《语言与女性的地位》中指出，女性语言中存在大量的模糊限制语（"我觉得""可能""也许"）——这不是天生的语言缺陷，<strong>这是社会惩罚女性自信言语的结果</strong>。</p>
+    <p>一个男人说"这个方案不对"——他直接。一个女人说同样的话——她"咄咄逼人"。<em>同样的行为，不同的标签。</em>这种双重标准让女性学会了自我审查，学会了把声音压低，学会了在每句话前面加上"不好意思"。</p>
+    <p>沉默的代价不只是少说了几句话。沉默让你错失晋升，让你的贡献被归功于他人，让你的愤怒内化为抑郁。<strong>沉默是慢性毒药。</strong></p>
+  </div>
+</section>
+
+<!-- ATTACK STRIP -->
+<div class="attack-strip" id="attackStrip" aria-hidden="true"></div>
+
+<!-- CH3: 被定价的人生 -->
+<section class="ch-opener" id="ch3">
+  <div class="ch-opener-bg" aria-hidden="true">III</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">III</span>
+      被定价的人生
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">the priced life</p>
+      <h2>你的价值——<br><span class="vm">谁说了算？</span></h2>
+      <p class="sub">女性的劳动被系统性地低估。家务劳动不算劳动，情感劳动不算付出，育儿不算工作。她的时间被定价为免费，她的存在被定价为附属。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Locked pile: breaking silence -->
+<section class="inst-silence">
+  <div class="inst-silence-inner reveal">
+    <p class="inst-silence-eyebrow">installation · 互动装置</p>
+    <h2 class="inst-silence-h">一张一张，<br>撕掉那些<em style="color:var(--violet);font-style:normal">定价标签</em>。</h2>
+    <div class="silence-stage" id="lockedPile"></div>
+    <div class="silence-counter">已撕掉 <span id="lockedCount">0</span> / 7 张</div>
+    <div class="silence-released locked-released">
+      <p class="silence-line priced-line idle" data-step="1"><span class="vm">01</span> 你的家务劳动——是经济系统的地基</p>
+      <p class="silence-line priced-line idle" data-step="2"><span class="vm">02</span> 你的情感劳动——不是"应该的"</p>
+      <p class="silence-line priced-line idle" data-step="3"><span class="vm">03</span> 你的生育能力——不是任何人的资产</p>
+      <p class="silence-line priced-line idle" data-step="4"><span class="vm">04</span> 你的时间——和你兄弟的时间一样值钱</p>
+      <p class="silence-line priced-line idle" data-step="5"><span class="vm">05</span> 你的身体——不是商品，不是货架</p>
+      <p class="silence-line priced-line idle" data-step="6"><span class="vm">06</span> 你不需要被"嫁出去"——你需要被看见</p>
+      <p class="silence-line priced-line idle" data-step="7"><span class="vm">07</span> 你是主语，不是宾语</p>
+    </div>
+    <div class="silence-reward" id="lockedReward">定价权，回到了你手里。</div>
+  </div>
+</section>
+
+<!-- CH4: 话语权与杠杆 -->
+<section class="ch-opener" id="ch4">
+  <div class="ch-opener-bg" aria-hidden="true">IV</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">IV</span>
+      话语权与杠杆
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">voice & leverage</p>
+      <h2>发声——<br><span class="vm">是最锋利的武器。</span></h2>
+      <p class="sub">在这个时代，女性的声音拥有了前所未有的放大可能。社交媒体、内容创作、社群组织——每一个都是杠杆。不要温顺地走进那良夜。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Capital cells -->
+<section class="inst-capital impact impact--light" id="capitalStage">
+  <div class="inst-capital-inner">
+    <p class="inst-capital-eyebrow">杠 杆 · leverage</p>
+    <h2 class="inst-capital-h">她拥有了<em style="color:var(--violet);font-style:normal">自己的杠杆</em>——</h2>
+    <div class="capital-grid stagger">
+      <div class="capital-cell"><div class="num">01</div><h3>内容创作</h3><p>写作、视频、播客——让她的声音传达到你无法触及的角落。每一个点赞都是话语的波纹。</p></div>
+      <div class="capital-cell"><div class="num">02</div><h3>经济独立</h3><p>金钱不是一切，但金钱是选择的底气。自己的钱，意味着自己说了算。这是最朴素也最有力的女性主义。</p></div>
+      <div class="capital-cell"><div class="num">03</div><h3>姐妹网络</h3><p>一个女性是孤岛，一万个女性是大陆。推荐、互助、传承——姐妹链是这个时代最强的社交杠杆。</p></div>
+      <div class="capital-cell"><div class="num">04</div><h3>叙事权</h3><p>谁定义了"好女人"？谁写了她的历史？叙事权——即定义现实的权利——是最深层的权力。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5: AI时代的性别 -->
+<section class="ch-opener" id="ch5">
+  <div class="ch-opener-bg" aria-hidden="true">V</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">V</span>
+      AI 时代的性别
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">gender in the age of ai</p>
+      <h2>算法——<br><span class="vm">继承了谁的偏见？</span></h2>
+      <p class="sub">AI 不是中立的。它从人类的数据中学习，而人类的数据充满了性别偏见。招聘算法歧视女性简历，语音助手默认女声。技术不是答案——技术是问题的一部分，也可以是答案的一部分。</p>
+    </div>
+  </div>
+</section>
+
+<section class="prose reveal">
+  <div class="prose-inner">
+    <p>2018 年，亚马逊关闭了一个 AI 招聘工具——因为它<strong>系统性地贬低了女性简历</strong>。这个模型从过去十年的简历数据中学习，而过去十年里，被录用的大多是男性。AI 学到的是：女性 = 不合格。</p>
+    <p>Siri、Alexa、小爱同学——<strong>为什么语音助手默认都是女声？</strong>因为社会认为女性应该是服务者，应该温柔、顺从、随时待命。技术产品忠实地再现了这种偏见。</p>
+    <div class="pull">"AI 不是一面镜子——<br>它是一面<span class="vm">放大镜。</span>"</div>
+    <p>更隐蔽的是推荐算法。当一个女孩在短视频平台上搜索"减肥"时，算法会给她推送越来越多的身材焦虑内容。当她搜索"穿搭"时，算法会告诉她什么是"好嫁风"。<strong>算法不创造偏见，但算法会指数级放大偏见。</strong></p>
+    <p>但这不是一个悲观的结论。正因为 AI 是从数据中学习的，<em>改变数据，就能改变 AI</em>。更多女性进入 AI 领域——不是作为用户，而是作为创造者。她们在训练模型、标注数据、设计产品。她们在决定 AI 的价值观。</p>
+  </div>
+</section>
+
+<!-- Phone Feed -->
+<section class="inst-feed">
+  <div class="inst-feed-inner reveal">
+    <p class="inst-feed-eyebrow">她每天听到的 · what she hears daily</p>
+    <h2 class="inst-feed-h">这些都是她<br>每天收到的<em style="color:var(--violet);font-style:normal">"推荐"</em>。</h2>
+    <div class="feed-track-wrap">
+      <div class="feed-track" id="feedTrack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6: 姐妹之链 -->
+<section class="ch-opener" id="ch6">
+  <div class="ch-opener-bg" aria-hidden="true">VI</div>
+  <div class="ch-opener-inner">
+    <div class="ch-spine">
+      <span class="roman">VI</span>
+      姐妹之链
+      <span class="of">/ vi</span>
+    </div>
+    <div class="ch-opener-body">
+      <p class="kicker">the sisterhood chain</p>
+      <h2>你不是——<br><span class="vm">一个人在走。</span></h2>
+      <p class="sub">一个女性可以被打败，一百万个女性就不可阻挡。姐妹情谊不是口号——它是信息共享、机会推荐、情感支持、资源互换。它是这个时代最被低估的基础设施。</p>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE SLIDER -->
+<section class="inst-voice" id="instEnergy">
+  <div class="inst-voice-inner reveal">
+    <p class="inst-voice-eyebrow">installation · 互动装置</p>
+    <h2 class="inst-voice-h">她的声音——<br><em style="color:var(--violet);font-style:normal">被听到了多少？</em></h2>
+    <div class="voice-big-num" id="energyBig">59</div>
+    <div class="voice-track-wrap">
+      <div class="voice-track">
+        <div class="voice-track-fill"></div>
+        <div class="voice-handle" id="energyHandle"><span style="position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font:500 10px/1 var(--mono);color:var(--bone-2);letter-spacing:.12em;white-space:nowrap" id="energyHandleNum">59</span></div>
+      </div>
+    </div>
+    <div class="voice-ticks" id="energyTicks"></div>
+    <div class="voice-labels-row"><span>被消音</span><span>被听见</span><span>被记住</span><span>被追随</span></div>
+    <p class="voice-desc">拖动滑块——体会她的声音在社会中每提升一分，需要跨越多少阻力。</p>
+  </div>
+</section>
+
+<!-- LABELS INSTALLATION -->
+<section class="inst-labels">
+  <div class="inst-labels-inner reveal">
+    <p class="inst-labels-eyebrow">installation · 互动装置</p>
+    <h2 class="inst-labels-h">捕捉那些<br><em style="color:var(--violet);font-style:normal">贴在她身上的标签</em>。</h2>
+    <p class="inst-labels-sub">鼠标移过/点击每个标签来捕捉它——看看社会给她贴了多少张。</p>
+    <div class="labels-stage" id="thievesStage">
+      <div class="center-you">我</div>
+    </div>
+    <div class="labels-counter" id="thievesCounter">已捕捉 <span class="num" id="thievesNum">0</span> / 25 个标签</div>
+    <div class="labels-cta" id="thievesCta">她不是任何一个标签。她是她自己。</div>
+  </div>
+</section>
+
+<!-- SPINE LIGHT -->
+<section class="inst-spine impact impact--light">
+  <div class="inst-spine-inner">
+    <p class="big-q">如果没有人来定义你——<br><span class="vm">你会是谁？</span></p>
+    <p class="answer">这个问题，每个女性都应该问自己。不是作为被观看的对象，不是作为妻子、母亲、女儿——而是作为她自己。一个不可被化约的存在。</p>
+  </div>
+</section>
+
+<!-- CODA -->
+<section class="coda" id="coda">
+  <div class="coda-inner impact">
+    <h2>她即<br><span class="vm">自由。</span></h2>
+    <p class="line">不是被允许的自由，而是<strong>与生俱来的自由</strong>。</p>
+    <p class="line">不是别人给的尊重，而是<strong>不可被剥夺的尊严</strong>。</p>
+    <p class="line">不是成为谁的女儿、妻子、母亲——<strong>而是成为她自己。</strong></p>
+    <div class="sig">她</div>
+  </div>
+</section>
+
+<script>
+(() => {
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarse = window.matchMedia('(hover: none)').matches;
+
+  // PROGRESS THREAD + CHAPTER COUNTER
+  const thread = document.getElementById('thread');
+  const chNow = document.getElementById('chNow');
+  const chrome = document.getElementById('chrome');
+  const chapterIds = ['prologue','ch1','ch2','ch3','ch4','ch5','ch6','coda'];
+  const chapterNames = {
+    'prologue': '— · 序',
+    'ch1':      'I · 身体',
+    'ch2':      'II · 沉默',
+    'ch3':      'III · 定价',
+    'ch4':      'IV · 话语',
+    'ch5':      'V · AI',
+    'ch6':      'VI · 姐妹',
+    'coda':     '∞ · 重塑'
+  };
+
+  let ticking = false;
+  const updateProgress = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if (thread) thread.style.setProperty('--p', p.toFixed(1) + '%');
+    let curr = 'prologue';
+    const y = h.scrollTop + 100;
+    for (const id of chapterIds) {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= y) curr = id;
+    }
+    if (chNow && chapterNames[curr]) chNow.textContent = chapterNames[curr];
+    ticking = false;
+  };
+  document.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateProgress); ticking = true; }
+  }, { passive: true });
+  updateProgress();
+
+  // CUSTOM CURSOR
+  if (!reduce && !isCoarse) {
+    const dot = document.getElementById('curDot');
+    const ring = document.getElementById('curRing');
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let rx = mx, ry = my;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (dot) { dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`; }
+    }, { passive: true });
+    const tick = () => {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      if (ring) ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a, button, .sheet, .label-tag, .voice-handle')) {
+        document.body.classList.add('hov-link');
+      }
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest('a, button, .sheet, .label-tag, .voice-handle')) {
+        document.body.classList.remove('hov-link');
+      }
+    });
+  }
+
+  // TOC
+  const toc = document.getElementById('toc');
+  const menuBtn = document.getElementById('menuBtn');
+  const tocClose = document.getElementById('tocClose');
+  const openToc = () => {
+    if (!toc) return;
+    toc.classList.add('open');
+    toc.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeToc = () => {
+    if (!toc) return;
+    toc.classList.remove('open');
+    toc.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+  menuBtn && menuBtn.addEventListener('click', openToc);
+  tocClose && tocClose.addEventListener('click', closeToc);
+  toc && toc.querySelectorAll('a').forEach(a => a.addEventListener('click', closeToc));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeToc();
+    if (e.key === 'm' && toc && !toc.classList.contains('open') &&
+        !['INPUT','TEXTAREA'].includes(document.activeElement && document.activeElement.tagName)) {
+      openToc();
+    }
+  });
+
+  // REVEAL ON SCROLL
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, .stagger, .impact').forEach(el => io.observe(el));
+
+  // CHROME ON LIGHT / DARK
+  const lightSelectors = ['.impact--light', '.inst-voice', '.inst-capital', '.inst-spine'];
+  const lightEls = document.querySelectorAll(lightSelectors.join(','));
+  if (chrome && lightEls.length) {
+    let lightCount = 0;
+    const lio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (en.isIntersecting) lightCount++;
+        else lightCount = Math.max(0, lightCount - 1);
+      });
+      chrome.classList.toggle('on-light', lightCount > 0);
+    }, { rootMargin: '-80px 0px -60% 0px' });
+    lightEls.forEach(el => lio.observe(el));
+  }
+
+  // HERO PARTICLE CANVAS
+  const heroCanvas = document.getElementById('heroParticles');
+  if (heroCanvas && !reduce) {
+    const ctx = heroCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let w, h;
+    const resize = () => {
+      w = heroCanvas.clientWidth;
+      h = heroCanvas.clientHeight;
+      heroCanvas.width = w * dpr;
+      heroCanvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    const particles = [];
+    const COUNT = Math.min(80, Math.floor((w * h) / 20000));
+    for (let i = 0; i < COUNT; i++) {
+      const isOutlier = Math.random() < 0.08;
+      particles.push({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15 - 0.05,
+        r: isOutlier ? 1.5 + Math.random() * 1.5 : 0.4 + Math.random() * 0.8,
+        a: 0.1 + Math.random() * 0.5,
+        violet: isOutlier
+      });
+    }
+    let rafId;
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.violet
+          ? `rgba(155, 77, 255, ${p.a})`
+          : `rgba(250, 250, 247, ${p.a})`;
+        ctx.fill();
+      }
+      rafId = requestAnimationFrame(draw);
+    };
+    draw();
+    const heroEl = document.getElementById('prologue');
+    if (heroEl) {
+      const heroIO = new IntersectionObserver(es => {
+        es.forEach(en => {
+          if (en.isIntersecting && !rafId) { rafId = requestAnimationFrame(draw); }
+          else if (!en.isIntersecting && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        });
+      });
+      heroIO.observe(heroEl);
+    }
+  }
+
+  // ATTACK STRIP
+  const attackStrip = document.getElementById('attackStrip');
+  if (attackStrip) {
+    const stripIO = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (en.isIntersecting) {
+          const BARS = 60;
+          for (let i = 0; i < BARS; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            const heightPct = Math.random() < 0.12 ? 70 + Math.random() * 25 : 25 + Math.random() * 35;
+            bar.style.height = heightPct + '%';
+            bar.style.animationDelay = (i * 25) + 'ms';
+            attackStrip.appendChild(bar);
+          }
+          stripIO.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    stripIO.observe(attackStrip);
+  }
+
+  // PHONE FEED
+  const feedTrack = document.getElementById('feedTrack');
+  if (feedTrack) {
+    const cards = [
+      { tag: 'for you',     tagLbl: '为你定制', head: '三十岁还没结婚，是不是真的没人要了',   stats: '♥ 89.7w   ↻ 31.4k  0:45' },
+      { tag: 'trending',    tagLbl: '热门',     head: '好嫁风穿搭指南：这样穿他才想娶你',       stats: '♥ 120.3w  ↻ 56.2k  1:10' },
+      { tag: 'recommended', tagLbl: '推荐',     head: '女强人注定不幸福？事业和爱情只能选一个', stats: '♥ 67.4w   ↻ 22.8k  0:35' },
+      { tag: 'live',        tagLbl: '直播中',   head: '整容变美后，我的人生像开了挂',           stats: '♥ 200.1w  ↻ 89.3k  1:25' },
+      { tag: 'recommended', tagLbl: '推荐',     head: '为什么"乖"女孩总是输给"坏"女孩',        stats: '♥ 55.2w   ↻ 18.6k  0:40' },
+      { tag: 'trending',    tagLbl: '热门',     head: '女性最好的投资：一张永远十八岁的脸',     stats: '♥ 98.6w   ↻ 42.1k  0:55' }
+    ];
+    [...cards, ...cards].forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'feed-card';
+      el.innerHTML = `<div class="meta"><span class="vm">${c.tag}</span> · ${c.tagLbl}</div><p class="head">${c.head}</p><div class="stats">${c.stats}</div>`;
+      feedTrack.appendChild(el);
+    });
+  }
+
+  // LABELS INSTALLATION
+  const thievesStage = document.getElementById('thievesStage');
+  const thievesNum = document.getElementById('thievesNum');
+  const thievesCounter = document.getElementById('thievesCounter');
+  const thievesCta = document.getElementById('thievesCta');
+  if (thievesStage) {
+    const labels = [
+      {t:'好嫁风', s:32}, {t:'白瘦幼', s:30}, {t:'剩女', s:34},
+      {t:'女汉子', s:28}, {t:'花瓶', s:30}, {t:'贤妻良母', s:26},
+      {t:'太强势', s:28}, {t:'情绪化', s:30}, {t:'大龄', s:36},
+      {t:'不够漂亮', s:24}, {t:'不够瘦', s:26}, {t:'不够温柔', s:24},
+      {t:'女司机', s:28}, {t:'女博士', s:30}, {t:'单亲妈妈', s:26},
+      {t:'扶弟魔', s:28}, {t:'伏地魔', s:28}, {t:'恋爱脑', s:30},
+      {t:'女拳', s:36}, {t:'绿茶', s:32}, {t:'圣母婊', s:26},
+      {t:'女强人', s:28}, {t:'全职太太', s:24}, {t:'老处女', s:28},
+      {t:'悍妇', s:32}
+    ];
+    const total = labels.length;
+    let caught = 0;
+
+    const buildLabel = (th, idx) => {
+      const el = document.createElement('span');
+      el.className = 'label-tag';
+      el.textContent = th.t;
+      const angle = (idx / total) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+      const angle2 = angle + Math.PI + (Math.random() - 0.5) * 0.6;
+      const startR = 200 + Math.random() * 100;
+      const endR = 200 + Math.random() * 100;
+      const passR = 50 + Math.random() * 100;
+      const passAngle = angle + Math.PI * 0.5 + (Math.random() - 0.5) * 0.7;
+      el.style.setProperty('--x0', Math.cos(angle) * startR + 'px');
+      el.style.setProperty('--y0', Math.sin(angle) * startR + 'px');
+      el.style.setProperty('--x1', Math.cos(passAngle) * passR + 'px');
+      el.style.setProperty('--y1', Math.sin(passAngle) * passR + 'px');
+      el.style.setProperty('--x2', Math.cos(angle2) * endR + 'px');
+      el.style.setProperty('--y2', Math.sin(angle2) * endR + 'px');
+      el.style.setProperty('--r0', ((Math.random() - .5) * 20) + 'deg');
+      el.style.setProperty('--r1', ((Math.random() - .5) * 15) + 'deg');
+      el.style.setProperty('--r2', ((Math.random() - .5) * 20) + 'deg');
+      el.style.setProperty('--delay', (-Math.random() * 18) + 's');
+
+      const doCatch = (e) => {
+        if (el.classList.contains('caught')) return;
+        el.classList.add('caught');
+        caught++;
+        const col = (caught - 1) % 5;
+        const row = Math.floor((caught - 1) / 5);
+        const finalX = (col - 2) * 110 + (Math.random() - .5) * 8;
+        const finalY = 160 + row * 38;
+        el.style.transform = `translate(${finalX}px, ${finalY}px) rotate(${(Math.random() - .5) * 4}deg) scale(.72)`;
+        el.style.fontSize = '13px';
+        if (thievesNum) thievesNum.textContent = caught;
+        if (caught >= total) {
+          thievesCounter && thievesCounter.classList.add('full');
+          thievesCta && thievesCta.classList.add('show');
+        }
+      };
+      el.addEventListener('mouseenter', doCatch);
+      el.addEventListener('click', doCatch);
+      el.addEventListener('touchstart', doCatch, { passive: true });
+      return el;
+    };
+
+    labels.forEach((th, i) => { thievesStage.appendChild(buildLabel(th, i)); });
+
+    const tio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (en.isIntersecting && !reduce) {
+          thievesStage.querySelectorAll('.label-tag:not(.caught)').forEach(t => t.classList.add('go'));
+          tio.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    tio.observe(thievesStage);
+  }
+
+  // VOICE SLIDER
+  const instVoice = document.getElementById('instEnergy');
+  const voiceHandle = document.getElementById('energyHandle');
+  const voiceHandleNum = document.getElementById('energyHandleNum');
+  const voiceBig = document.getElementById('energyBig');
+  const voiceTicks = document.getElementById('energyTicks');
+
+  if (instVoice && voiceHandle && voiceTicks) {
+    for (let i = 0; i <= 10; i++) {
+      const t = document.createElement('div');
+      const isMajor = (i === 0 || i === 5 || i === 10);
+      t.className = 'voice-tick' + (isMajor ? ' major' : '');
+      t.style.left = (i * 10) + '%';
+      voiceTicks.appendChild(t);
+    }
+
+    let value = 59;
+    const setValue = v => {
+      value = Math.max(0, Math.min(100, v));
+      instVoice.style.setProperty('--v', value);
+      instVoice.classList.toggle('heated', value >= 70);
+      const display = Math.round(value);
+      if (voiceBig) { voiceBig.textContent = display; voiceBig.classList.toggle('heated', value >= 70); }
+      if (voiceHandleNum) voiceHandleNum.textContent = display;
+    };
+
+    const track = instVoice.querySelector('.voice-track');
+    let dragging = false;
+    const onMove = (cx) => {
+      const rect = track.getBoundingClientRect();
+      const x = cx - rect.left;
+      setValue((x / rect.width) * 100);
+    };
+    const startDrag = (e) => {
+      dragging = true;
+      voiceHandle.classList.add('grabbing');
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      onMove(cx);
+      e.preventDefault();
+    };
+    const moveDrag = (e) => {
+      if (!dragging) return;
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      onMove(cx);
+    };
+    const endDrag = () => { dragging = false; voiceHandle.classList.remove('grabbing'); };
+
+    voiceHandle.addEventListener('mousedown', startDrag);
+    voiceHandle.addEventListener('touchstart', startDrag, { passive: false });
+    track.addEventListener('mousedown', startDrag);
+    track.addEventListener('touchstart', startDrag, { passive: false });
+    document.addEventListener('mousemove', moveDrag);
+    document.addEventListener('touchmove', moveDrag, { passive: false });
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchend', endDrag);
+    setValue(59);
+
+    // demo animation
+    const eio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (en.isIntersecting && !reduce) {
+          setTimeout(() => {
+            const tweenTo = (target, dur) => new Promise(res => {
+              const start = value;
+              const t0 = performance.now();
+              const step = (t) => {
+                if (dragging && t - t0 > 100) { res(); return; }
+                const k = Math.min(1, (t - t0) / dur);
+                const ease = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+                setValue(start + (target - start) * ease);
+                if (k < 1) requestAnimationFrame(step);
+                else res();
+              };
+              requestAnimationFrame(step);
+            });
+            (async () => {
+              await tweenTo(88, 1400);
+              await new Promise(r => setTimeout(r, 600));
+              if (dragging) return;
+              await tweenTo(42, 1100);
+              await new Promise(r => setTimeout(r, 400));
+              if (dragging) return;
+              await tweenTo(75, 900);
+            })();
+          }, 800);
+          eio.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    eio.observe(instVoice);
+  }
+
+  // LOCKED PILE (breaking silence)
+  const lockedPile = document.getElementById('lockedPile');
+  const lockedCount = document.getElementById('lockedCount');
+  const lockedReward = document.getElementById('lockedReward');
+  const pricedLines = document.querySelectorAll('.locked-released .priced-line');
+
+  if (lockedPile) {
+    const SHEETS = 7;
+    const notes = [
+      '我不是任何人的附属品。',
+      '我的身体，我的规则。',
+      '说"不"不需要理由。',
+      '我的野心不需要道歉。',
+      '我不是"剩女"，我是自由人。',
+      '我的人生由我定价。',
+      '我即自由。'
+    ];
+    const sheets = [];
+    for (let i = 0; i < SHEETS; i++) {
+      const sheet = document.createElement('div');
+      sheet.className = 'sheet';
+      const tx = (Math.random() - 0.5) * 90;
+      const ty = (Math.random() - 0.5) * 60;
+      const rot = (Math.random() - 0.5) * 18;
+      sheet.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${rot}deg)`;
+      sheet.style.zIndex = i + 1;
+      sheet.dataset.tx = tx; sheet.dataset.ty = ty; sheet.dataset.rot = rot;
+      let lines = '';
+      const lineCount = 8 + Math.floor(Math.random() * 3);
+      for (let j = 0; j < lineCount; j++) {
+        lines += `<span style="--w:${60 + Math.random() * 40}%"></span>`;
+      }
+      sheet.innerHTML = `<div class="lines">${lines}</div><div class="note-text">${notes[i]}</div><div class="stamp-page">${String(i + 1).padStart(2, '0')} / 07</div><div class="stamp-private">她的备忘录</div>`;
+      lockedPile.appendChild(sheet);
+      sheets.push(sheet);
+    }
+
+    let topIdx = SHEETS - 1;
+    let published = 0;
+    const updateTopSheet = () => {
+      sheets.forEach(s => s.classList.remove('is-top'));
+      if (topIdx >= 0 && sheets[topIdx] && sheets[topIdx].parentNode) {
+        sheets[topIdx].classList.add('is-top');
+      }
+    };
+    updateTopSheet();
+
+    const showStep = (n) => {
+      pricedLines.forEach(l => {
+        const step = parseInt(l.dataset.step, 10);
+        if (step <= n) { l.classList.add('in'); l.classList.remove('idle'); }
+        else { l.classList.remove('in'); l.classList.add('idle'); }
+      });
+    };
+
+    const flyOut = (sheet) => {
+      if (sheet.classList.contains('flying')) return;
+      const stageRect = lockedPile.getBoundingClientRect();
+      const dx = stageRect.width + 200;
+      const dy = -40 - Math.random() * 60;
+      const rotEnd = (Math.random() < .5 ? -1 : 1) * (8 + Math.random() * 14);
+      sheet.classList.remove('dragging', 'is-top');
+      sheet.classList.add('flying');
+      sheet.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${rotEnd}deg) scale(.7)`;
+      sheet.style.opacity = '0';
+      setTimeout(() => sheet.remove(), 800);
+      published++;
+      if (lockedCount) lockedCount.textContent = published;
+      showStep(published);
+      if (published >= 5 && lockedReward) lockedReward.classList.add('show');
+      topIdx--;
+      setTimeout(updateTopSheet, 50);
+    };
+
+    let dragSheet = null;
+    let dragStart = null;
+    let baseT = null;
+    let dragged = false;
+
+    const onDown = (e) => {
+      const sheet = e.currentTarget;
+      if (!sheet.classList.contains('is-top')) return;
+      dragSheet = sheet; dragged = false;
+      sheet.classList.add('dragging');
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      dragStart = { x: cx, y: cy };
+      baseT = { tx: parseFloat(sheet.dataset.tx), ty: parseFloat(sheet.dataset.ty), rot: parseFloat(sheet.dataset.rot) };
+      e.preventDefault();
+    };
+    const onMv = (e) => {
+      if (!dragSheet) return;
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      const dx = cx - dragStart.x; const dy = cy - dragStart.y;
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) dragged = true;
+      const newRot = baseT.rot + dx * 0.05;
+      dragSheet.style.transform = `translate(calc(-50% + ${baseT.tx + dx}px), calc(-50% + ${baseT.ty + dy}px)) rotate(${newRot}deg)`;
+    };
+    const onUp = (e) => {
+      if (!dragSheet) return;
+      const cx = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+      const dx = cx - dragStart.x;
+      if (dragged && (dx > 70 || Math.abs(dx) > 110)) { flyOut(dragSheet); }
+      else if (!dragged) { flyOut(dragSheet); }
+      else {
+        dragSheet.classList.remove('dragging');
+        dragSheet.style.transform = `translate(calc(-50% + ${baseT.tx}px), calc(-50% + ${baseT.ty}px)) rotate(${baseT.rot}deg)`;
+      }
+      dragSheet = null;
+    };
+
+    sheets.forEach(s => {
+      s.addEventListener('mousedown', onDown);
+      s.addEventListener('touchstart', onDown, { passive: false });
+    });
+    document.addEventListener('mousemove', onMv);
+    document.addEventListener('touchmove', onMv, { passive: false });
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchend', onUp);
+  }
+
+  // CAPITAL CELLS
+  const capStage = document.getElementById('capitalStage');
+  if (capStage) {
+    const cio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (en.isIntersecting) {
+          capStage.querySelector('.stagger') && capStage.querySelector('.stagger').classList.add('in');
+          cio.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cio.observe(capStage);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSTI — 胃格测试</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --c1: #122e87;
+    --c2: #0055A9;
+    --c3: #0077B9;
+    --c4: #0098BC;
+    --c5: #00B6B6;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #E8F4FD 0%, #D6EFF9 40%, #E0F4F4 80%, #F0FAFA 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 60px;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  /* ===== 装饰气泡 ===== */
+  .deco-bubbles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .deco-bubbles span {
+    position: absolute; border-radius: 50%; opacity: 0.07;
+    animation: floatBubble linear infinite;
+  }
+  .deco-bubbles span:nth-child(1) { width: 180px; height: 180px; background: var(--c3); left: 5%; animation-duration: 20s; }
+  .deco-bubbles span:nth-child(2) { width: 120px; height: 120px; background: var(--c5); left: 70%; animation-duration: 24s; animation-delay: 3s; }
+  .deco-bubbles span:nth-child(3) { width: 150px; height: 150px; background: var(--c4); left: 40%; animation-duration: 22s; animation-delay: 1s; }
+  .deco-bubbles span:nth-child(4) { width: 90px;  height: 90px;  background: var(--c2); left: 85%; animation-duration: 18s; animation-delay: 5s; }
+  .deco-bubbles span:nth-child(5) { width: 110px; height: 110px; background: var(--c1); left: 20%; animation-duration: 26s; animation-delay: 2s; }
+  @keyframes floatBubble {
+    0%   { transform: translateY(110vh) scale(0.6); opacity: 0; }
+    10%  { opacity: 0.07; }
+    90%  { opacity: 0.07; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ===== 主容器 ===== */
+  .wrapper {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 540px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* ===== 首页 ===== */
+  .home-sec {
+    width: 100%; text-align: center;
+    padding: 40px 0 20px;
+  }
+  .home-emoji { font-size: 3.2rem; margin-bottom: 12px; }
+  .home-logo {
+    width: 90px; height: auto; margin-top: 5px; margin-bottom: 16px;
+  }
+  .home-title {
+    font-size: 3.6rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: 8px; margin-bottom: 8px;
+  }
+  .home-sub {
+    font-size: 1.1rem; font-weight: 500; color: var(--c3);
+    letter-spacing: 2px; margin-bottom: 28px;
+  }
+  .home-desc {
+    font-size: 0.92rem; color: #999; line-height: 1.8;
+    max-width: 360px; margin: 0 auto 36px;
+  }
+  .btn-start {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--c2), var(--c3), var(--c5));
+    color: #fff; border: none; border-radius: 50px;
+    padding: 16px 52px; font-size: 1.12rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; letter-spacing: 2px;
+    box-shadow: 0 6px 24px rgba(0,119,185,0.3);
+  }
+  .btn-start:active { transform: scale(0.97); }
+
+  /* ===== 副标题 ===== */
+  .main-subtitle {
+    font-size: 0.9rem; color: #aaa; letter-spacing: 3px; margin-bottom: 28px;
+  }
+
+  /* ===== 进度区 ===== */
+  .progress-area {
+    width: 100%; margin-bottom: 20px;
+  }
+  .progress-text {
+    font-size: 0.88rem; font-weight: 700; color: var(--c1);
+    text-align: center; margin-bottom: 8px;
+  }
+  .progress-track {
+    width: 100%; height: 10px; background: #eee; border-radius: 10px;
+    overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .progress-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5));
+    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 10%;
+  }
+
+  /* ===== 题目卡片 ===== */
+  .q-card {
+    width: 100%; background: #fff; border-radius: 22px;
+    padding: 30px 26px 26px;
+    box-shadow: 0 8px 36px rgba(18,46,135,0.07), 0 2px 8px rgba(0,0,0,0.03);
+    position: relative;
+  }
+  .q-card::before {
+    content: ''; position: absolute; inset: -2px; border-radius: 24px;
+    background: linear-gradient(135deg, var(--c1), var(--c2), var(--c3), var(--c5));
+    z-index: -1;
+  }
+
+  .q-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: #fff; font-size: 0.78rem; font-weight: 700;
+    padding: 4px 16px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .q-text {
+    font-size: 1.12rem; font-weight: 700; color: var(--c1);
+    line-height: 1.65; margin-bottom: 22px;
+  }
+
+  /* ===== 选项 ===== */
+  .opts { display: flex; flex-direction: column; gap: 11px; }
+  .opt {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid #e8e8e8; border-radius: 14px;
+    background: #fafafa; cursor: pointer; position: relative;
+  }
+  .opt:hover { border-color: var(--c4); background: #F0F8FB; transform: translateX(4px); }
+  .opt.sel {
+    border-color: var(--c3);
+    background: linear-gradient(135deg, #E8F4FD, #E0F2F2);
+    box-shadow: 0 2px 14px rgba(0,119,185,0.12);
+  }
+  .opt input[type="radio"] { display: none; }
+  .opt-dot {
+    width: 22px; height: 22px; min-width: 22px;
+    border: 2px solid #ccc; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .opt.sel .opt-dot { border-color: var(--c3); background: var(--c3); }
+  .opt.sel .opt-dot::after { content: '\2713'; color: #fff; font-size: 13px; font-weight: 700; }
+  .opt-label { font-size: 0.94rem; line-height: 1.55; color: #444; }
+  .opt.sel .opt-label { color: var(--c1); font-weight: 500; }
+
+  /* ===== 底部按钮区 ===== */
+  .nav-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 24px; gap: 12px; min-height: 48px;
+  }
+  .btn {
+    padding: 12px 28px; border: none; border-radius: 30px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; letter-spacing: 1px;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn-prev { background: #f0f0f0; color: #666; }
+  .btn-prev:hover { background: #e0e0e0; color: #333; }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--c2), var(--c3), var(--c5));
+    color: #fff; padding: 14px 36px; font-size: 1.05rem;
+    box-shadow: 0 4px 18px rgba(0,119,185,0.3);
+  }
+  .btn-submit:hover { box-shadow: 0 6px 26px rgba(0,119,185,0.45); transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0) scale(0.97); }
+  .btn-restart {
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: #fff; padding: 14px 40px; font-size: 1.05rem;
+    box-shadow: 0 4px 18px rgba(18,46,135,0.2);
+  }
+  .btn-restart:hover { box-shadow: 0 6px 26px rgba(18,46,135,0.35); transform: translateY(-1px); }
+
+  /* ===== 结果页（主题色） ===== */
+  .result-sec {
+    display: none; width: 100%;
+  }
+  .result-card {
+    border-radius: 26px; overflow: hidden;
+    box-shadow: 0 12px 44px rgba(18,46,135,0.09), 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .r-header {
+    padding: 38px 24px 30px; text-align: center;
+  }
+  .r-emoji {
+    font-size: 4.2rem; display: block; margin-bottom: 10px;
+  }
+  .r-name {
+    font-size: 2.1rem; font-weight: 900; letter-spacing: 5px;
+  }
+  .r-body { padding: 28px 24px 34px; background: #fff; }
+  .r-feature {
+    border-radius: 14px; padding: 16px 18px;
+    font-size: 0.95rem; line-height: 1.75; color: #444;
+    margin-bottom: 22px; border-left: 4px solid;
+  }
+  .r-brand {
+    display: inline-block;
+    background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+    border: 1px solid #ddd; border-radius: 8px;
+    padding: 8px 22px; font-size: 1rem; font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: underline; text-underline-offset: 3px; margin-bottom: 20px;
+  }
+  .r-tips {
+    border-radius: 14px; padding: 18px 18px;
+    font-size: 0.95rem; line-height: 1.85; color: #444;
+    border-left: 4px solid;
+  }
+  .r-tips-title {
+    font-weight: 700; margin-bottom: 6px; font-size: 1rem;
+  }
+  .r-restart { text-align: center; padding: 0 24px 30px; background: #fff; }
+
+  /* ===== 免责声明 ===== */
+  .disclaimer {
+    font-size: 13px; color: #999; line-height: 1.4;
+    text-align: center; margin-top: 20px; margin-bottom: 8px;
+    padding: 0 16px;
+  }
+
+  /* -- 健康胃：淡薄荷绿 -- */
+  .theme-green .r-header   { background: linear-gradient(135deg, #B8E0D2, #D4EDE5); }
+  .theme-green .r-name     { color: #3A6B5C; }
+  .theme-green .r-feature  { background: #EDF7F3; border-left-color: #B8E0D2; color: #3A6B5C; }
+  .theme-green .r-brand    { color: #4A8A75; text-decoration-color: #B8E0D2; }
+  .theme-green .r-tips     { background: #F4FAF7; border-left-color: #B8E0D2; }
+  .theme-green .r-tips-title { color: #4A8A75; }
+
+  /* -- 佛系胃：淡灰紫 -- */
+  .theme-purple .r-header  { background: linear-gradient(135deg, #D9D0E6, #EAE3F2); }
+  .theme-purple .r-name    { color: #5B4A7A; }
+  .theme-purple .r-feature { background: #F3EFF8; border-left-color: #D9D0E6; color: #5B4A7A; }
+  .theme-purple .r-brand   { color: #7060A0; text-decoration-color: #D9D0E6; }
+  .theme-purple .r-tips    { background: #F7F4FB; border-left-color: #D9D0E6; }
+  .theme-purple .r-tips-title { color: #7060A0; }
+
+  /* -- 暴食胃：淡灰蓝 -- */
+  .theme-blue .r-header    { background: linear-gradient(135deg, #B8D8F0, #D2E8F6); }
+  .theme-blue .r-name      { color: #2D5F7E; }
+  .theme-blue .r-feature   { background: #EDF5FB; border-left-color: #B8D8F0; color: #2D5F7E; }
+  .theme-blue .r-brand     { color: #4078A0; text-decoration-color: #B8D8F0; }
+  .theme-blue .r-tips      { background: #F3F8FC; border-left-color: #B8D8F0; }
+  .theme-blue .r-tips-title { color: #4078A0; }
+
+  /* -- 敏感胃：淡奶油黄 -- */
+  .theme-orange .r-header  { background: linear-gradient(135deg, #FDEBB3, #FEF3D0); }
+  .theme-orange .r-name    { color: #8B7230; }
+  .theme-orange .r-feature { background: #FFFBEF; border-left-color: #FDEBB3; color: #8B7230; }
+  .theme-orange .r-brand   { color: #A08840; text-decoration-color: #FDEBB3; }
+  .theme-orange .r-tips    { background: #FFFCF0; border-left-color: #FDEBB3; }
+  .theme-orange .r-tips-title { color: #A08840; }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0,85,169,0.92); color: #fff;
+    padding: 18px 34px; border-radius: 16px;
+    font-size: 1rem; font-weight: 500;
+    z-index: 9999; opacity: 0; pointer-events: none;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  /* ===== 移动端 ===== */
+  @media (max-width: 600px) {
+    .disclaimer { font-size: 11px; padding: 0 12px; }
+  }
+
+  @media (max-width: 560px) {
+    body { padding: 14px 10px 40px; }
+    .home-logo { width: 68px; }
+    .home-title { font-size: 2.6rem; letter-spacing: 5px; }
+    .q-card { padding: 22px 18px 20px; }
+    .q-text { font-size: 1.02rem; }
+    .opt { padding: 12px 13px; }
+    .btn { padding: 11px 22px; font-size: 0.94rem; }
+    .btn-submit { padding: 13px 28px; }
+    .r-header { padding: 28px 18px 22px; }
+    .r-body { padding: 22px 18px 26px; }
+    .r-emoji { font-size: 3.4rem; }
+    .r-name { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 装饰气泡 -->
+<div class="deco-bubbles">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="wrapper">
+
+  <!-- ======== 首页 ======== -->
+  <div class="home-sec" id="homeSec">
+    <div class="home-emoji">🫧</div>
+    <h1 class="home-title">MSTI</h1>
+    <p class="home-sub">探索你的专属胃格</p>
+    <svg class="home-logo" viewBox="0 0 1138.9 240.89" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#0055A9">
+        <polygon points="209.96 61.27 209.96 49.09 228.06 49.23 228.06 61.27 296.9 61.27 296.97 159.82 321.29 159.82 321.21 170.12 277.91 170.12 277.98 70.25 227.95 70.25 210.56 168.81 191.77 168.92 208.68 70.25 186.18 70.25 186.18 61.27 209.96 61.27"/>
+        <path d="M321,48.24h113.69v49.56l-16.91-.02h-96.78v-49.54h0ZM337.7,78.84v10.27h31.71v-10.27h-31.71ZM369.41,70.34v-12.75h-31.71v12.75h31.71ZM386.29,78.84v10.13l30.6-.13.13-31.24h-30.73v12.75h32.3l-.17,8.5h-32.13Z"/>
+        <polygon points="320.53 103.01 434.97 103.01 434.97 168.21 416.86 168.61 378.73 168.67 378.73 159.25 416.87 159.25 416.87 114.62 338.63 114.62 338.63 123.51 418.87 123.51 419.04 132.14 338.63 132.14 338.63 141.55 419.13 141.55 419.04 150.11 338.63 150.18 338.63 170.12 320.53 170.05 320.53 103.01"/>
+        <polygon points="451.61 125.06 474.28 125.2 494.82 145.29 472.02 145.29 451.61 125.06"/>
+        <polygon points="501.26 84.11 451.48 84.11 451.48 74.57 501.26 74.57 501.26 65.29 451.34 65.29 451.34 55.67 501.26 55.67 501.26 49.11 519.47 49.11 519.47 55.67 571.15 55.67 571.15 65.22 519.47 65.29 519.47 74.57 571.14 74.57 571.14 84.18 519.47 84.11 519.47 92.92 571.56 92.92 571.56 102.67 534.19 102.67 572.09 122.11 536.17 122.11 510.53 108.49 485.57 122.11 450.88 122.04 487.73 102.67 451.48 102.67 451.48 92.92 501.26 92.92 501.26 84.11"/>
+        <polygon points="571.72 124.88 551.8 145.29 527.71 145.36 549.06 124.99 571.72 124.88"/>
+        <polygon points="493.26 148.4 472.27 168.88 449.08 168.74 471.54 148.4 493.26 148.4"/>
+        <polygon points="527.86 148.13 552.25 148.13 575.84 168.47 549.78 168.33 527.86 148.13"/>
+        <polygon points="502.91 120.91 519.08 120.91 519.08 169.21 504.26 169.08 489.85 168.94 489.85 160.16 502.97 160.16 502.91 120.91"/>
+        <rect x="53.61" y="156.05" width="112.94" height="11.82"/>
+        <rect x="60.06" y="105.2" width="100.04" height="10.77"/>
+        <rect x="56.37" y="57.01" width="107.42" height="10.77"/>
+        <polygon points="0 210.8 29.87 0 617.1 0 617.1 9.16 38.49 9.16 9.78 201.65 587.8 201.65 587.8 210.8 0 210.8"/>
+        <polygon points="1103.73 240.89 610.62 240.89 645.79 34.09 1138.9 34.09 1103.73 240.89"/>
+      </g>
+      <g fill="#FFFFFF">
+        <path d="M683.22,213.89l-6.88-11.56c10.11-3.43,18.43-8.35,24.95-14.76,6.52-6.41,10.62-13.98,12.31-22.73l2.29-11.87h13.91l-2.32,12.34c-2.17,11.56-6.83,21.35-13.98,29.36-7.15,8.02-17.24,14.42-30.27,19.22ZM794.82,125.32l-1.99,12.19h-23.23c2.46,4.79,5.65,9.24,9.56,13.35,3.92,4.12,8.09,7.52,12.52,10.23l-8.64,11.25c-5.57-3.75-10.83-8.72-15.78-14.92-4.95-6.19-8.86-12.83-11.74-19.91h-28.8c-5.5,6.77-11.49,12.91-17.96,18.43-6.47,5.52-13.2,10.36-20.19,14.53l-6.88-11.72c10.35-5.72,19.64-12.81,27.85-21.24h-22.42l1.99-12.19h30.76c2.94-3.85,5.56-7.86,7.87-12.03h-24.54l1.96-11.72h28.47c1.75-4.06,3.29-8.23,4.62-12.5h-39.59l1.99-12.18h22.91c-.63-2.4-1.19-4.71-1.66-6.95-.48-2.24-.78-4.19-.9-5.86l13.21-2.19c.19,2.5.48,5,.89,7.5.41,2.5.98,5,1.71,7.5h25.69c3.11-4.89,5.62-9.9,7.54-15l11.95,2.81c-.75,1.67-1.64,3.57-2.69,5.7-1.05,2.13-2.23,4.3-3.55,6.49h22.74l-1.99,12.18h-44.34c-1.22,4.27-2.65,8.44-4.29,12.5h40.41l-1.96,11.72h-43.68c-2.19,4.17-4.54,8.17-7.05,12.03h59.23ZM738.41,212.95l9.06-59.98h14.4l-9.06,59.98h-14.4Z"/>
+        <path d="M819.07,212.95l13.55-82.01h68.55c4.36,0,7.53.94,9.49,2.82,1.97,1.87,2.64,4.53,2.01,7.96l-8.13,49.2c-1.3,7.61-3.9,13.25-7.82,16.95-3.91,3.7-8.87,5.55-14.86,5.55-4.8,0-8.91-1.54-12.34-4.61-3.43-3.07-5.63-7.63-6.61-13.67l11.14-3.13c1.19,5.94,3.81,8.91,7.85,8.91,2.51,0,4.48-1.09,5.91-3.28,1.43-2.19,2.55-5.78,3.38-10.78l.48-2.81h-53.83l-4.87,28.9h-13.91ZM928.31,78.31l-7.55,44.68h-93.42l9.33-56.08h80.49c4.91,0,8.12,1.17,9.62,3.51,1.51,2.34,2.02,4.97,1.53,7.89ZM839.61,172.96h53.83l1.72-10.31h-53.83l-1.72,10.31ZM843.56,110.8h25.2l1.74-10.78h-25.2l-1.74,10.78ZM843.26,151.57h53.83l1.48-9.06h-53.82l-1.49,9.06ZM847.2,89.4h25.03l1.73-10.47h-25.03l-1.73,10.47ZM882.01,110.8h26.67l1.74-10.78h-26.67l-1.74,10.78ZM885.65,89.4h26.5l1.89-10.47h-26.67l-1.73,10.47Z"/>
+        <path d="M956.66,213.11h-12.93l9.52-56.54h14.56l2.7-16.09h-19.47l2.01-12.65h19.63l2.26-14.22h-6.22l1.26-7.96c-1.86,2.08-3.8,4.09-5.82,6.01-2.01,1.93-4,3.78-5.95,5.55l-9.31-9.06c6.98-5.83,13.6-12.73,19.88-20.69,6.28-7.97,11.61-17.05,16-27.26l12.52,4.37c-1.01,2.5-2.13,5-3.36,7.5,3.54,4.89,6.88,10.02,10.02,15.39,3.14,5.36,6.07,11.01,8.8,16.94l-11.49,6.57c-1.07-2.29-2.1-4.43-3.08-6.41l-1.65,9.06h-9l-2.26,14.22h18.49l-2.18,12.65h-18.32l-2.69,16.09h3.27c4.36,0,7.28,1.01,8.75,3.05,1.47,2.03,1.95,4.71,1.44,8.04l-6.31,37.02h-29.62l-1.45,8.43ZM960.08,192.8h16.53l4.3-24.37h-16.85l-3.97,24.37ZM973.47,101.89h23.39c-1.57-3.13-3.15-6.17-4.73-9.14-1.58-2.97-3.22-5.86-4.92-8.67-2.03,3.13-4.19,6.17-6.48,9.14-2.29,2.97-4.72,5.86-7.27,8.67ZM994.13,192.34l11.21-1.56c.04,3.23.3,5.36.79,6.41.49,1.04,1.11,1.61,1.87,1.72,1.84.21,3.11-1.97,3.8-6.56l10.44-61.39h-15.38l2.19-12.8h17.5c-1.21-3.75-2.61-7.47-4.21-11.17-1.6-3.7-3.44-7.37-5.52-11.01l10.48-6.09c1.88,3.43,3.65,6.87,5.32,10.31,2.34-2.82,4.66-5.88,6.97-9.22,2.31-3.33,4.5-6.87,6.56-10.62h-31.25l2.37-13.28h33.38c5.12,0,8.37,1.46,9.73,4.37,1.37,2.92,1.01,6.35-1.06,10.31-2.56,4.79-5.62,9.79-9.18,14.99-3.56,5.21-7.84,10.42-12.81,15.62.66,1.88,1.32,3.8,1.97,5.78h8.35c3.49,0,5.97,1.01,7.44,3.05,1.47,2.03,1.77,5.08.88,9.14-1.03,4.9-2.46,10-4.28,15.31-1.82,5.31-3.83,9.99-6.02,14.06l-10.97-2.82c3.94-8.12,6.98-16.76,9.13-25.93h-8.83l-10.37,62.95c-1.14,6.87-3.43,11.64-6.84,14.29-3.42,2.66-6.88,3.93-10.36,3.82-4.57-.21-7.9-1.97-10.01-5.31-2.11-3.34-3.21-8.12-3.29-14.37Z"/>
+        <path d="M585.8,53.02c0-9.71,7.24-17.02,16.52-17.02s16.37,7.3,16.37,17.02-7.22,17.13-16.37,17.13-16.52-7.25-16.52-17.13ZM602.32,73.6c11.03,0,20.46-8.69,20.46-20.57s-9.43-20.44-20.46-20.44-20.57,8.68-20.57,20.44,9.43,20.57,20.57,20.57ZM598.06,54.64h4.06l6.16,10.27h3.93l-6.65-10.44c3.47-.36,6.09-2.27,6.09-6.47,0-4.69-2.76-6.73-8.27-6.73h-8.86v23.64h3.54v-10.27ZM598.06,51.6v-7.31h4.75c2.49,0,5.11.57,5.11,3.45,0,3.63-2.64,3.86-5.69,3.86h-4.17Z"/>
+      </g>
+    </svg>
+    <p class="home-desc">
+      10 道趣味小题<br>发现属于你的专属胃格类型
+    </p>
+
+    <button class="btn-start" onclick="startQuiz()">开始测试</button>
+    <p class="disclaimer">温馨提示：本测试仅为趣味互动，所有结果和养胃建议仅供参考，不能代替专业医疗诊断。如有胃部不适，请咨询专业医生。</p>
+  </div>
+
+  <!-- ======== 答题区（初始隐藏） ======== -->
+  <div class="progress-area" id="progressArea" style="display:none">
+    <div class="progress-text" id="progressText">第 1 / 10 题</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="qCard" style="display:none">
+    <span class="q-badge" id="qBadge">第 1 题</span>
+    <div class="q-text" id="qText"></div>
+    <div class="opts" id="optsList"></div>
+    <div class="nav-bar" id="navBar"></div>
+  </div>
+
+  <!-- ======== 结果区（初始隐藏） ======== -->
+  <div class="result-sec" id="resultSec">
+    <div class="result-card" id="resultCard">
+      <div class="r-header">
+        <span class="r-emoji" id="rEmoji"></span>
+        <div class="r-name" id="rName"></div>
+      </div>
+      <div class="r-body">
+        <div class="r-feature" id="rFeature"></div>
+        <div style="text-align:center">
+          <span class="r-brand">999&reg; 三九胃泰</span>
+        </div>
+        <div class="r-tips">
+          <div class="r-tips-title" id="rTipsTitle"></div>
+          <div id="rTipsBody"></div>
+        </div>
+      </div>
+      <div class="r-restart">
+        <button class="btn btn-restart" onclick="restartTest()">&#x1F504; 重新测试</button>
+      </div>
+    </div>
+    <p class="disclaimer">温馨提示：本测试仅为趣味互动，所有结果和养胃建议仅供参考，不能代替专业医疗诊断。如有胃部不适，请咨询专业医生。</p>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== 题库 ===== */
+var Q = [
+  { q:'平时三餐规律吗？', o:['非常规律，每天固定时间吃饭','偶尔规律，忙的时候就不吃','不规律，饿了才吃，经常暴饮暴食','规律但容易受食物影响，吃错就不舒服'] },
+  { q:'面对生冷、辛辣食物，你的反应是？', o:['完全没问题，想吃就吃','偶尔吃一点，没明显不适','经常吃，吃完偶尔腹胀','一碰就不舒服，容易反酸、胃痛'] },
+  { q:'熬夜或压力大时，胃部会有不适吗？', o:['完全不会，没任何感觉','偶尔轻微胀气，不影响','会有点腹胀、消化不良','经常反酸、隐痛，不适感明显'] },
+  { q:'你平时的饮食偏好是？', o:['清淡均衡，荤素搭配，少油少盐','没什么偏好，随便吃，不挑嘴','偏爱重油重辣、烧烤火锅，无辣不欢','清淡为主，不敢吃刺激食物，怕胃不舒服'] },
+  { q:'吃完饭后，你通常会有什么感觉？', o:['很舒适，无任何不适','偶尔轻微胀气，过会儿就好','经常腹胀、撑得慌，消化很慢','偶尔反酸、隐痛，尤其是吃多或吃错后'] },
+  { q:'你有暴饮暴食的习惯吗？', o:['从来没有，每餐适量','偶尔一次，很少出现','经常有，心情好或不好都想吃很多','不敢暴饮暴食，吃多一点就不舒服'] },
+  { q:'当胃部出现轻微不适时，你会怎么做？', o:['不用管，过会儿就好','喝口水、休息一下，基本能缓解','忍一忍，实在不行再注意饮食','立刻注意饮食，不适感很难快速缓解'] },
+  { q:'你平时会主动养胃吗？', o:['会，坚持规律饮食、清淡作息，注重养胃','偶尔会，不舒服的时候才注意','不会，想吃什么吃什么，不在意养胃','被迫养胃，因为肠胃敏感，必须注意'] },
+  { q:'你吃生冷食物（如冰饮、生鱼片）的频率是？', o:['经常吃，完全没问题','偶尔吃，没明显不适','偶尔吃，吃完会轻微腹胀','几乎不吃，吃了就胃痛、反酸'] },
+  { q:'整体来说，你对自己的胃部状态满意度如何？', o:['非常满意，几乎没有不适','一般，偶尔有轻微不适，不影响生活','不太满意，经常有腹胀、消化不良的情况','很不满意，经常有胃部不适，影响生活'] }
+];
+
+/* ===== 结果数据 ===== */
+var R = {
+  A:{ name:'健康胃', emoji:'🥗', theme:'green',
+      feature:'三餐规律、饮食均衡，肠胃耐受度强，几乎无胃部不适，消化功能良好。',
+      tipsT:'✨ 守护健康胃', tips:'继续保持规律作息，适当增加膳食纤维，定期给肠胃放个假（轻断食一天），让好状态常驻！' },
+  B:{ name:'佛系胃', emoji:'🧘', theme:'purple',
+      feature:'对饮食要求不高，三餐不规律但无明显不适，偶尔轻微胀气，耐受度中等。',
+      tipsT:'🌸 佛系养胃法', tips:'不用太紧张，但建议逐步固定三餐时间，少吃产气食物（豆类、红薯），饭后散步10分钟。' },
+  C:{ name:'暴食胃', emoji:'🍔', theme:'blue',
+      feature:'饮食无节制，常暴饮暴食或饥一顿饱一顿，偏爱重油重辣，易腹胀、消化不良。',
+      tipsT:'🔥 暴食胃调理', tips:'尝试每餐七分饱，多用蒸煮代替油炸，饭前喝杯水增加饱腹感，慢慢训练「小鸟胃」。' },
+  D:{ name:'敏感胃', emoji:'😣', theme:'orange',
+      feature:'肠胃耐受力弱，易受生冷、辛辣、熬夜刺激，偶尔出现反酸、隐痛症状。',
+      tipsT:'🌟 敏感胃专属呵护', tips:'远离韭菜、辛辣、冰饮等刺激食物，晨起喝一杯温水唤醒肠胃，三餐定时定量、细嚼慢咽，避免熬夜和过度压力。' }
+};
+
+/* ===== 状态 ===== */
+var cur = 0;
+var ans = [null,null,null,null,null,null,null,null,null,null];
+var isAuto = false;
+
+/* ===== 开始测试 ===== */
+function startQuiz() {
+  document.getElementById('homeSec').style.display = 'none';
+  document.getElementById('progressArea').style.display = '';
+  document.getElementById('qCard').style.display = '';
+  document.getElementById('resultSec').style.display = 'none';
+  cur = 0;
+  for (var i = 0; i < 10; i++) ans[i] = null;
+  renderQ(0);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ===== 渲染题目 ===== */
+function renderQ(idx) {
+  var n = idx + 1;
+  document.getElementById('progressText').textContent = '第 ' + n + ' / 10 题';
+  document.getElementById('progressFill').style.width = (n * 10) + '%';
+  document.getElementById('qBadge').textContent = '第 ' + n + ' 题';
+  document.getElementById('qText').textContent = Q[idx].q;
+
+  var labels = ['A','B','C','D'];
+  var box = document.getElementById('optsList');
+  box.innerHTML = '';
+
+  for (var i = 0; i < 4; i++) {
+    (function(label, text, ii) {
+      var el = document.createElement('label');
+      el.className = 'opt' + (ans[idx] === label ? ' sel' : '');
+      el.innerHTML = '<input type="radio" name="q' + idx + '" value="' + label + '"' + (ans[idx] === label ? ' checked' : '') + '>'
+        + '<span class="opt-dot"></span>'
+        + '<span class="opt-label">' + label + '. ' + text + '</span>';
+
+      var radio = el.querySelector('input[type="radio"]');
+      radio.addEventListener('change', function() {
+        if (isAuto) return;
+        ans[idx] = label;
+        var items = box.querySelectorAll('.opt');
+        for (var j = 0; j < items.length; j++) items[j].classList.remove('sel');
+        el.classList.add('sel');
+
+        if (idx < 9) {
+          isAuto = true;
+          setTimeout(function() {
+            cur = idx + 1;
+            renderQ(cur);
+            isAuto = false;
+          }, 260);
+        }
+      });
+
+      box.appendChild(el);
+    })(labels[i], Q[idx].o[i], i);
+  }
+
+  // 底部按钮
+  var nav = document.getElementById('navBar');
+  nav.innerHTML = '';
+
+  if (n === 1) {
+    // 无按钮
+  } else if (n >= 2 && n <= 9) {
+    nav.innerHTML = '<button class="btn btn-prev" onclick="goPrev()">← 上一个</button>';
+  } else {
+    nav.innerHTML = '<button class="btn btn-prev" onclick="goPrev()">← 上一个</button>'
+      + '<button class="btn btn-submit" onclick="doSubmit()">提交测试</button>';
+  }
+}
+
+/* ===== 上一个 ===== */
+function goPrev() {
+  if (cur > 0) { cur--; renderQ(cur); }
+}
+
+/* ===== 提交 ===== */
+function doSubmit() {
+  for (var i = 0; i < 10; i++) {
+    if (ans[i] === null) {
+      showToast('请完成所有题目后再提交');
+      cur = i;
+      renderQ(cur);
+      return;
+    }
+  }
+
+  var cnt = {A:0,B:0,C:0,D:0};
+  for (var i = 0; i < 10; i++) cnt[ans[i]]++;
+
+  var type;
+  if (cnt.A >= 7)      type = 'A';
+  else if (cnt.B >= 5) type = 'B';
+  else if (cnt.C >= 5) type = 'C';
+  else if (cnt.D >= 5) type = 'D';
+  else {
+    var mx = 0, order = ['A','B','C','D'];
+    type = 'A';
+    for (var k = 0; k < 4; k++) {
+      if (cnt[order[k]] > mx) { mx = cnt[order[k]]; type = order[k]; }
+    }
+  }
+
+  showResult(type);
+}
+
+/* ===== 显示结果 ===== */
+function showResult(type) {
+  var r = R[type];
+
+  // 应用主题色
+  var card = document.getElementById('resultCard');
+  card.className = 'result-card theme-' + r.theme;
+
+  document.getElementById('rEmoji').textContent = r.emoji;
+  document.getElementById('rName').textContent = r.name;
+  document.getElementById('rFeature').textContent = r.feature;
+  document.getElementById('rTipsTitle').textContent = r.tipsT;
+  document.getElementById('rTipsBody').textContent = r.tips;
+
+  document.getElementById('qCard').style.display = 'none';
+  document.getElementById('progressArea').style.display = 'none';
+  document.getElementById('resultSec').style.display = 'block';
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ===== 重新测试 ===== */
+function restartTest() {
+  document.getElementById('resultSec').style.display = 'none';
+  document.getElementById('homeSec').style.display = '';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ===== Toast ===== */
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
+}
+</script>
+</body>
+</html>
